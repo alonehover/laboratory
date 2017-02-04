@@ -3,6 +3,7 @@
 var Koa = require('koa')
 var config = require('./config')
 var router = require('./router')
+const path = require('path')
 
 var app = new Koa()
 

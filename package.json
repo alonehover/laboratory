@@ -19,11 +19,13 @@
   },
   "homepage": "https://github.com/alonehover/weekPlan#readme",
   "dependencies": {
+    "co-views": "^2.1.0",
     "koa": "2.0.0",
     "koa-router": "^7.1.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-router": "^3.0.2"
+    "react-router": "^3.0.2",
+    "swig": "^1.4.2"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
