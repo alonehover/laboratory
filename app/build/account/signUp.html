@@ -2,19 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>注册-途风旅游</title>
     <script>
         !function(e){function t(a){if(i[a])return i[a].exports;var n=i[a]={exports:{},id:a,loaded:!1};return e[a].call(n.exports,n,n.exports,t),n.loaded=!0,n.exports}var i={};return t.m=e,t.c=i,t.p="",t(0)}([function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=window;t["default"]=i.flex=function(e,t){var a=e||100,n=t||1,r=i.document,o=navigator.userAgent,d=o.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i),l=o.match(/U3\/((\d+|\.){5,})/i),c=l&&parseInt(l[1].split(".").join(""),10)>=80,p=navigator.appVersion.match(/(iphone|ipad|ipod)/gi),s=i.devicePixelRatio||1;p||d&&d[1]>534||c||(s=1);var u=1/s,m=r.querySelector('meta[name="viewport"]');m||(m=r.createElement("meta"),m.setAttribute("name","viewport"),r.head.appendChild(m)),m.setAttribute("content","width=device-width,user-scalable=no,initial-scale="+u+",maximum-scale="+u+",minimum-scale="+u),r.documentElement.style.fontSize=a/2*s*n+"px"},e.exports=t["default"]}]);
         flex(100, 1);
     </script>
-    <link rel="stylesheet/less" href="sign.less" type="text/css">
+    <link rel="stylesheet/less" href="/sign.less" type="text/css">
+    <link rel="stylesheet/less" href="/font/iconfont.css" type="text/css">
 </head>
 <body>
     <div id="signUp">
         <div class="sign-bar">
-            <div class="bar-item bar-left"><i><</i></div>
-            <div class="bar-item bar-center">{{titles}}</div>
+            <div class="bar-item bar-left"><i class="iconfont icon-sign-back"></i></div>
+            <div class="bar-item bar-center" v-text="title"></div>
             <div class="bar-item"></div>
+        </div>
+
+        <div class="sign-form main">
+            <div class="form-item phone-code">
+                <span class="country" v-text="country"></span>
+                <span class="code" v-text="country_code"></span>
+                <i class="iconfont icon-sign-code"></i>
+            </div>
+            <div class="form-item has-icon">
+                <i class="form-item-icon iconfont icon-sign-user"></i>
+                <input 
+                    type="tel" 
+                    v-model="form.phone"
+                    placeholder="输入手机号"                    
+                    @input="inputVal('phone')"
+                    @focus="activeInput('phone')"
+                >
+                <i 
+                    class="form-item-icon iconfont icon-sign-clear" 
+                    v-show="input_active == 'phone'"
+                    @click="clearInput('phone')"                    
+                ></i>
+            </div>
+            <div class="form-item has-icon">
+                <i class="form-item-icon iconfont icon-sign-varify"></i>
+                <input 
+                    type="text" 
+                    v-model="form.msg_code" 
+                    placeholder="短信验证码"
+                    @input="inputVal('msg_code')"
+                    @focus="activeInput('msg_code')"
+                >
+                <i 
+                    class="form-item-icon iconfont icon-sign-clear" 
+                    v-show="input_active == 'msg_code'"
+                    @click.prevent="clearInput('msg_code')"                    
+                ></i>
+                <button 
+                    class="btn no-wrap"
+                    :class="{'btn-default': !varify_status, 'btn-primary': varify_status}" 
+                    :disabled="!varify_status"                    
+                    @click="sendVarify"
+                >{{varify_msg}}</button>
+            </div>
+            <div class="form-item has-icon">
+                <i class="form-item-icon iconfont icon-sign-pwd"></i>
+                <input 
+                    type="password" 
+                    v-model="form.pwd" 
+                    placeholder="输入8位密码，包含字母和数字"
+                    @input="inputVal('pwd')"
+                    @focus="activeInput('pwd')"
+                >
+                <i 
+                    class="form-item-icon iconfont icon-sign-clear" 
+                    v-show="input_active == 'pwd'"
+                    @click="clearInput('pwd')"                    
+                ></i>
+                <i 
+                    class="form-item-icon iconfont" 
+                    :class="{'icon-sign-show': show_pwd, 'icon-sign-hide': !show_pwd}"
+                    @click=""
+                ></i>
+            </div>
+        </div>
+
+        <div class="sign-up-btn">
+            <button class="btn btn-lg btn-default">注册</button>
         </div>
 
     </div>
