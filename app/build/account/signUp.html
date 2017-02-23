@@ -62,8 +62,17 @@
             </div>
             <div class="form-item has-icon">
                 <i class="form-item-icon iconfont icon-sign-pwd"></i>
-                <input 
-                    type="password" 
+                <input
+                    v-if="show_pwd"
+                    type="text"
+                    v-model="form.pwd" 
+                    placeholder="输入8位密码，包含字母和数字"
+                    @input="inputVal('pwd')"
+                    @focus="activeInput('pwd')"
+                >
+                <input
+                    v-if="!show_pwd"
+                    type="password"
                     v-model="form.pwd" 
                     placeholder="输入8位密码，包含字母和数字"
                     @input="inputVal('pwd')"
@@ -77,13 +86,18 @@
                 <i 
                     class="form-item-icon iconfont" 
                     :class="{'icon-sign-show': show_pwd, 'icon-sign-hide': !show_pwd}"
-                    @click=""
+                    @click="showPwd"
                 ></i>
             </div>
         </div>
 
         <div class="sign-up-btn">
             <button class="btn btn-lg btn-default">注册</button>
+        </div>
+
+        <div class="sign-modal">
+            <div class="varify-box"></div>
+            <div class="modal-back"></div>
         </div>
 
     </div>
