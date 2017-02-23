@@ -3,6 +3,7 @@
 }
 
 body {
+    font-family: Arial, Helvetica, sans-serif, Microsoft YaHei;
     font-size: .32rem;
     margin: 0;
     padding: 0;
@@ -16,6 +17,10 @@ input{
     padding: .08rem .24rem;
     font-size: .28rem;
     outline: 0;
+}
+
+button {
+    font-family: Arial, Helvetica, sans-serif, Microsoft YaHei;
 }
 
 i {
@@ -152,13 +157,15 @@ i {
     }
 
     .panel-content{
-        margin-top: .48rem;
+        height: 100%;
+        overflow: hidden;
     }
 
     .varify-img {
         width: 100%;
         vertical-align: middle;
         border-radius: .08rem;
+        margin-top: .48rem;        
     }
 
     .change-img {
@@ -195,7 +202,7 @@ i {
     }
 
     .panel-foot {
-        margin: .48rem 0;
+        margin-top: .48rem;
         padding-top: .16rem;
         border-top: .01rem solid #d6d6d6;
         display: flex;
@@ -217,5 +224,46 @@ i {
                 color: #0090f2;
             }
         }
+    }
+    
+
+    .pre-panel {
+        height: 60%;
+        width: 100%;
+        position: absolute;
+        top: 40%;
+        background: #ffffff;
+
+        .panel-head {
+            line-height: .96rem;
+            padding: 0 .48rem;
+            overflow: hidden;
+            box-shadow: 0 .02rem .08rem rgba(120, 120, 120, .2);
+
+            .right-cancel {
+                float: right;
+            }
+        }
+
+        .pre-list {
+            padding: 0 .48rem;
+            height: 100%;
+            overflow-y: scroll;
+            
+            .list-item {
+                line-height: .96rem;
+                border-bottom: .01rem solid #d6d6d6;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &.active {
+                    color: #0090f2;
+                }
+            }
+
+        }
+
     }
 }

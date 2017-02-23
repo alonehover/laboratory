@@ -19,9 +19,9 @@
         </div>
 
         <div class="sign-form main">
-            <div class="form-item phone-code">
+            <div class="form-item phone-code" @click="pre_panel_show = true">
                 <span class="country" v-text="country"></span>
-                <span class="code" v-text="country_code"></span>
+                <span class="code" v-text="form.pre_code"></span>
                 <i class="iconfont icon-sign-code"></i>
             </div>
             <div class="form-item has-icon">
@@ -92,25 +92,45 @@
         </div>
 
         <div class="sign-up-btn">
-            <button class="btn btn-lg btn-default">注册</button>
+            <button class="btn btn-lg" :class="{'btn-default': !validation.reg, 'btn-primary': validation.reg}">注册</button>
         </div>
 
-        <div class="sign-modal">
+        <div class="sign-modal" v-show="varify_panel_show">
             <div class="varify-panel">
                 <div class="panel-head">请输入图中验证码</div>
                 <div class="panel-content">
                     <img class="varify-img" :src="varify_img" @click.stop="changeVarifyImg">
                     <a class="change-img" @click.prevent="changeVarifyImg" >看不清，换一个</a>
                     <div class="varify-code">
-                        <input type="text" placeholder="输入验证码">
+                        <input type="text" v-model="form.varify_code" placeholder="输入验证码">
                     </div>
                 </div>
                 <div class="panel-foot">
-                    <button class="panel-btn">取消</button>
-                    <button class="panel-btn right-btn">确定</button>
+                    <button class="panel-btn" @click="cancelVarifyCode">取消</button>
+                    <button class="panel-btn right-btn" @click="varifyCode">确定</button>
                 </div>
             </div>
-            <!--<div class="modal-back"></div>-->
+        </div>
+
+        <div class="sign-modal" v-show="pre_panel_show">
+            <div class="pre-panel">
+                <div class="panel-head">
+                    <span>請選擇國際區號</span>
+                    <span class="right-cancel" @click="pre_panel_show = false">取消</span>
+                </div>
+                <div class="panel-content">
+                    <div class="pre-list">
+                        <div 
+                            class="list-item"
+                            v-for="item in pre_list"
+                            :class="{'active': item.code == form.pre_code}"
+                            @click="selectPreCode(item)"
+                        >
+                            {{item.country + " " + item.code}}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
