@@ -96,10 +96,22 @@
         </div>
 
         <div class="sign-modal">
-            <div class="varify-box"></div>
-            <div class="modal-back"></div>
+            <div class="varify-panel">
+                <div class="panel-head">请输入图中验证码</div>
+                <div class="panel-content">
+                    <img class="varify-img" :src="varify_img" @click.stop="changeVarifyImg">
+                    <a class="change-img" @click.prevent="changeVarifyImg" >看不清，换一个</a>
+                    <div class="varify-code">
+                        <input type="text" placeholder="输入验证码">
+                    </div>
+                </div>
+                <div class="panel-foot">
+                    <button class="panel-btn">取消</button>
+                    <button class="panel-btn right-btn">确定</button>
+                </div>
+            </div>
+            <!--<div class="modal-back"></div>-->
         </div>
-
     </div>
 
     <script src="/lib/vue.js"></script>
