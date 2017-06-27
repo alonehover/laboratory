@@ -15,7 +15,7 @@ app.use(async (ctx, next) => {
     console.log('%s %s - %sms', ctx.method, ctx.url, ms);
 })
 
-app.use(server(path.join(__dirname, '..', 'app/build/public')))
+app.use(server(path.join(__dirname, '..', 'app/public')))
 
 router(app)
 
