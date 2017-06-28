@@ -1,25 +1,40 @@
-var render = require('../lib/render')
+import Tag from '../model/Tag'
 
-var Home = {
+const Home = {
     init(router) {
         router.get('/', this.show),
+        router.get('/api/tag/add', this.addTag),
         router.get('/test', this.test)
-        router.get('/signUp', this.signUp)
     },
 
     async show(ctx, next) {
-        ctx.response.body = await render('home/index')
+        await ctx.render('index')
+    },
+
+    async addTag(ctx, next) {
+        const tag_data = {
+            name: "123",
+            desc: "asdasd",
+            url: "gvdsafasfa",
+            type: "asdasd"
+        };
+
+        const tag = await new Tag(tag_data).save(function (err) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log('save success')
+            }
+        })
+
+        ctx.body = tag
     },
 
     async test(ctx, next) {
-        ctx.response.body = {
+        ctx.body = {
             msg: "asdas"
         }
     },
-
-    async signUp(ctx, next) {
-        ctx.response.body = await render('account/signUp')
-    }
 }
 
 module.exports = Home

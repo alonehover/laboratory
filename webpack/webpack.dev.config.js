@@ -9,7 +9,7 @@ module.exports = {
         hot: true,
         port: 8080
     },
-    entry: path.resolve(__dirname, "../src/app.js"),
+    entry: path.resolve(__dirname, "../src/js/app.js"),
     output: {
         path: path.resolve(__dirname, "../app/public/js"),
         publicPath: "/js/",
@@ -29,7 +29,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                include: path.resolve(__dirname, "../resources/assets"),
+                include: path.resolve(__dirname, "../src/sass"),
                 loader: "style-loader!css-loader!sass-loader"
             },
             {

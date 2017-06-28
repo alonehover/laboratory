@@ -1,21 +1,23 @@
 'use strict'
 
-var Koa = require('koa')
-var server = require('koa-static')
-var config = require('./config')
-var router = require('./router')
+const Koa = require('koa')
+const server = require('koa-static')
+const config = require('./config')
+const router = require('./router')
 const path = require('path')
+const views = require('koa-views')
 
-var app = new Koa()
+let app = new Koa()
 
 app.use(async (ctx, next) => {
-    var start = new Date
+    const start = new Date
     await next()
-    var ms = new Date - start
+    const ms = new Date - start
     console.log('%s %s - %sms', ctx.method, ctx.url, ms);
 })
 
 app.use(server(path.join(__dirname, '..', 'app/public')))
+app.use(views(path.join(__dirname, '..', 'app/tpl'), { map: {html: 'ejs'} }))
 
 router(app)
 
