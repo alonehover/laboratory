@@ -1,0 +1,33 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+}
+
+input {
+    line-height: 24px;
+    padding: 4px;
+    outline: none;
+    border: none;
+}
+
+button, input {
+    font-family: 'Microsoft Yahei', 'sans-serif';
+}
+
+ul {
+    list-style: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.button {
+    background: #fff;
+    padding: 12px 24px;
+    border: 1px solid #aaa;
+    outline: none;
+    cursor: pointer;
+}

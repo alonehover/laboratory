@@ -1,0 +1,43 @@
+.tag-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    padding: 96px 48px;
+
+    &.active {
+        width: 40%;
+        height: 100%;
+        background: rgba(0, 0, 0, .7);
+    }
+
+    .form-item {
+        input {
+            width: 100%;
+            margin-bottom: 32px;
+            line-height: 32px;
+            padding: 12px 24px;
+            font-size: 18px;
+            background: #EEE;
+            border: 4px solid #363636;
+        }
+
+        .button {
+            margin-top: 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 4px solid #363636;
+        }
+    }
+
+    .close {
+        color: #CCC;
+        font-size: 32px;
+        font-family: sans-serif;
+        position: absolute;
+        top: 24px;
+        right: 48px;
+        cursor: pointer;
+    }
+}
+
