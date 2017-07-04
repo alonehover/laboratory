@@ -1,40 +1,62 @@
 import Tag from '../model/Tag'
+import Tool from '../tool'
+
+const { Response } = Tool
+
+const getAllList = async () => {
+    const list = await Tag.aggregate([
+        {
+            $group: {
+                _id:"$type",
+                list: {$push: {name: "$name", desc: "$desc", url: "$url"}},
+                
+            }
+        },
+        {
+            $project : {
+                list: "$list"
+            },
+        }
+    ])
+
+    return list
+}
 
 const Home = {
     init(router) {
         router.get('/', this.show),
-        router.get('/api/tag/add', this.addTag),
-        router.get('/test', this.test)
+        router.get('/api/tag', this.tagList),
+        router.post('/api/tag/add', this.addTag)
     },
 
     async show(ctx, next) {
+        const list = await Tag.find()
         await ctx.render('index')
     },
 
+    async tagList(ctx, next) {
+        const list = await getAllList()
+        ctx.body = Response(list ? list : [])
+    },
+
     async addTag(ctx, next) {
+        console.log(ctx.request.body);
+        const request = ctx.request.body
+
         const tag_data = {
-            name: "123",
-            desc: "asdasd",
-            url: "gvdsafasfa",
-            type: "asdasd"
+            name: request.name,
+            desc: request.desc,
+            url: request.url,
+            type: request.type
         };
 
-        const tag = await new Tag(tag_data).save(function (err) {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log('save success')
-            }
-        })
+        const tag = await new Tag(tag_data).save()
 
-        ctx.body = tag
-    },
-
-    async test(ctx, next) {
-        ctx.body = {
-            msg: "asdas"
+        if(tag) {
+            const list = await getAllList()
+            ctx.body = Response(list ? list : [])
         }
-    },
+    }
 }
 
 module.exports = Home

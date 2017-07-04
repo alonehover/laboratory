@@ -6,8 +6,11 @@ const config = require('./config')
 const router = require('./router')
 const path = require('path')
 const views = require('koa-views')
+const bodyParser = require('koa-bodyparser');
 
 let app = new Koa()
+
+app.use(bodyParser())
 
 app.use(async (ctx, next) => {
     const start = new Date
