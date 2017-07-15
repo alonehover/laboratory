@@ -1,64 +1,17 @@
-.tag-form {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 0;
-    padding: 96px 48px;
-    display: none;
-    z-index: 3;
-
-    &.active {
-        width: 40%;
-        height: 100%;
-        background: rgba(0, 0, 0, .7);
-        display: block;
-    }
-
-    .form-item {
-        input {
-            width: 100%;
-            margin-bottom: 32px;
-            line-height: 32px;
-            padding: 12px 24px;
-            font-size: 18px;
-            background: #EEE;
-            border: 4px solid #363636;
-        }
-
-        .button {
-            background: #CCC;
-            margin-top: 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border: 4px solid #363636;
-        }
-    }
-
-    .btn-close {
-        color: #CCC;
-        font-size: 32px;
-        font-family: sans-serif;
-        position: absolute;
-        top: 24px;
-        right: 48px;
-        cursor: pointer;
-    }
-}
-
-
 .container {
     padding: 48px;
+}
+
+.tag-group-name {
+    font-weight: bold;
 }
 
 .tag-list {
     overflow: hidden;
 
     .tag-item {
-        border: 1px solid #363636;
         padding: 12px;
         float: left;
-        margin-right: 12px;
-        margin-bottom: 12px;
         line-height: 24px;
 
         a {
@@ -71,14 +24,6 @@
             font-size: 18px;
         }
     }
-}
-
-.btn-add {
-    position: absolute;
-    top: 12px;
-    left: 48px;
-    background: #FFF;
-    border: 1px solid #363636;
 }
 
 .txt-help {

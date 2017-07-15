@@ -10,7 +10,8 @@ import {
 import Containers from "./containers"
 
 const routes = [
-    {path: "/", exact: true, component: "Home"}
+    {path: "/", exact: true, component: "Home"},
+    {path: "/create", component: "Create"}
 ]
 
 const NoMatch = ({ location }) => (

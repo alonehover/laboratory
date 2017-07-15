@@ -9,7 +9,7 @@ const getAllList = async () => {
             $group: {
                 _id:"$type",
                 list: {$push: {name: "$name", desc: "$desc", url: "$url"}},
-                
+
             }
         },
         {
@@ -24,9 +24,9 @@ const getAllList = async () => {
 
 const Home = {
     init(router) {
-        router.get('/', this.show),
         router.get('/api/tag', this.tagList),
-        router.post('/api/tag/add', this.addTag)
+        router.post('/api/tag/add', this.addTag),
+        router.get('/*', this.show)
     },
 
     async show(ctx, next) {
@@ -40,7 +40,6 @@ const Home = {
     },
 
     async addTag(ctx, next) {
-        console.log(ctx.request.body);
         const request = ctx.request.body
 
         const tag_data = {

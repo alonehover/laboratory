@@ -1,0 +1,39 @@
+.tag-form {
+
+    &.active {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .9);
+        display: block;
+    }
+
+    .form-item {
+        input {
+            width: 100%;
+            margin-bottom: 32px;
+            line-height: 32px;
+            padding: 12px 24px;
+            font-size: 18px;
+            background: #EEE;
+            border: 4px solid #363636;
+        }
+
+        .button {
+            background: #CCC;
+            margin-top: 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 4px solid #363636;
+        }
+    }
+
+    .btn-close {
+        color: #CCC;
+        font-size: 32px;
+        font-family: sans-serif;
+        position: absolute;
+        top: 24px;
+        right: 48px;
+        cursor: pointer;
+    }
+}
