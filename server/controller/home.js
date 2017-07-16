@@ -1,5 +1,5 @@
-import Tag from '../model/Tag'
-import Tool from '../tool'
+const Tag = require('../model/Tag')
+const Tool = require('../tool')
 
 const { Response } = Tool
 

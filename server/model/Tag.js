@@ -1,4 +1,4 @@
-import mongoose from '../db/connect'
+const mongoose = require('../db/connect')
 
 const Schema = mongoose.Schema;
 

@@ -1,7 +1,7 @@
-import Response from "./response"
+const Response = require("./response")
 
 const Tool = {
     Response
 }
 
-export default Tool
+module.exports = Tool

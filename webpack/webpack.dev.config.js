@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 const OpenBrowserPlugin = require("open-browser-webpack-plugin");
 
 module.exports = {
@@ -12,8 +13,8 @@ module.exports = {
     entry: path.resolve(__dirname, "../src/js/app.js"),
     output: {
         path: path.resolve(__dirname, "../app/public/js"),
-        publicPath: "/js/",
-        filename: "./app.js"
+        publicPath: "http://localhost:8080/js/",
+        filename: "app.js"
     },
     module: {
         loaders: [
@@ -45,6 +46,10 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new OpenBrowserPlugin({
             url: "http://localhost:8081"
-        })
+        }),
+        new HtmlWebpackPlugin({
+            filename: path.resolve(__dirname, "../app/view/index.html"),
+            template: "../src/tpl/index.dev.html"
+        }),
     ]
 }

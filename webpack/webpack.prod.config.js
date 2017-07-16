@@ -1,12 +1,13 @@
 const webpack = require("webpack");
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
     entry: path.resolve(__dirname, "../src/js/app.js"),
     output: {
         path: path.resolve(__dirname, "../app/public/js"),
         publicPath: "/js/",
-        filename: "./app.js"
+        filename: "app.js"
     },
     module: {
         loaders: [
@@ -47,6 +48,10 @@ module.exports = {
             'process.env': {
                 NODE_ENV: JSON.stringify('production')
             }
-        })
+        }),
+        new HtmlWebpackPlugin({
+            filename: path.resolve(__dirname, "../app/view/index.html"),
+            template: "./src/tpl/index.prod.html"
+        }),
     ]
 }

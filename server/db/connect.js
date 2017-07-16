@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 mongoose.Promise = global.Promise;
 // 连接字符串格式为mongodb://主机/数据库名
@@ -12,4 +12,4 @@ db.once('open', function() {
   console.log.bind(console, 'mongo sql connection success');
 });
 
-export default mongoose
+module.exports = mongoose

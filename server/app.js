@@ -1,5 +1,4 @@
 'use strict'
-
 const Koa = require('koa')
 const server = require('koa-static')
 const config = require('./config')
@@ -20,7 +19,7 @@ app.use(async (ctx, next) => {
 })
 
 app.use(server(path.join(__dirname, '..', 'app/public')))
-app.use(views(path.join(__dirname, '..', 'app/tpl'), { map: {html: 'ejs'} }))
+app.use(views(path.join(__dirname, '..', 'app/view'), { map: {html: 'ejs'} }))
 
 router(app)
 
