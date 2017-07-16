@@ -1,5 +1,5 @@
 import axios from 'axios'
-import querystring from 'querystring'
+import qs from 'qs'
 
 const HOST_URL = "/"
 
@@ -22,7 +22,7 @@ const GET = (url, params) => {
 }
 
 const POST = (url, params) => {
-    return axios.post(HOST_URL + url, querystring.stringify(params)).then(rs => rs.data).then(json => {
+    return axios.post(HOST_URL + url, qs.stringify(params)).then(rs => rs.data).then(json => {
         if(json.code === 1) {
             return json.data
         }
@@ -39,7 +39,7 @@ const POST = (url, params) => {
 
 const API = {
     tagList: () => {
-        return GET("api/tag")    
+        return GET("api/tag")
     },
 
     addTag: (params) => {

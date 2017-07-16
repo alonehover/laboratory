@@ -35,6 +35,7 @@ class Create extends Component {
                 }
             }
         }
+        
         API.addTag(form_data).then(rs => {
             if(rs) {
                 this.props.history.replace("/")
@@ -60,7 +61,8 @@ class Create extends Component {
                     <input type="text" placeholder="type" value={form_data.type} onChange={(e) => this.hanleTextChange(e, "type")}/>
                 </div>
                 <div className="form-item">
-                    <button className="button" type="button" onClick ={this.handleSubmit}>添加</button>
+                    <button className="button btn-create" type="button" onClick ={this.handleSubmit}>添加</button>
+                    <a  href="/">返回主页</a>
                 </div>
             </div>
         )

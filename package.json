@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "cross-env NODE_ENV=development nodemon server --exec babel-node --watch server",
     "client": "cross-env Node_ENV=development webpack-dev-server --config ./webpack/webpack.dev.config.js",
-    "build": "cross-env Node_ENV=production webpack --config ./webpack/webpack.dev.config.js --progress",
+    "build": "cross-env Node_ENV=production webpack --config ./webpack/webpack.prod.config.js --progress",
     "start": "cross-env NODE_ENV=development "
   },
   "repository": {
@@ -30,8 +30,7 @@
     "koa-router": "^7.2.1",
     "koa-static": "^2.1.0",
     "koa-views": "^6.0.2",
-    "mongoose": "^4.10.8",
-    "querystring": "^0.2.0"
+    "mongoose": "^4.10.8"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
