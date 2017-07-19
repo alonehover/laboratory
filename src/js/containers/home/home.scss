@@ -4,7 +4,7 @@
 
 .tag-group-name {
     font-weight: bold;
-    width: 60px;
+    width: 80px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -19,13 +19,17 @@
     }
 
     .tag-item {
-        padding: 0 12px;
+        padding: 0 16px;
         float: left;
 
         a {
             display: block;
             text-decoration: none;
-            color: #002369;
+            color: #3396c7;
+
+            &:hover {
+                color: #0b6592;
+            }
         }
 
         .tag-name {
