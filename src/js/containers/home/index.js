@@ -28,7 +28,7 @@ class Home extends Component {
                     <ul className="tag-list">
                         {this.state.list.map(item => {
                             return (
-                                <div key={item._id}>
+                                <div key={item._id} className="row">
                                     <div className="tag-group-name">{item._id}</div>
                                     <ul className="tag-list" >
                                         {

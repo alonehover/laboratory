@@ -4,15 +4,23 @@
 
 .tag-group-name {
     font-weight: bold;
+    width: 60px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .tag-list {
     overflow: hidden;
 
+    .row {
+        display: flex;
+        line-height: 48px;
+    }
+
     .tag-item {
-        padding: 12px;
+        padding: 0 12px;
         float: left;
-        line-height: 24px;
 
         a {
             display: block;
