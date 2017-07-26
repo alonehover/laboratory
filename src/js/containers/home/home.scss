@@ -20,6 +20,8 @@
     .row {
         display: flex;
         line-height: 48px;
+        border-bottom: 1px solid rgba(200, 200, 200, .2);
+        padding: 12px 0;
     }
 
     .tag-item {
