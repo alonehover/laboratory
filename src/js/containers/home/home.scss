@@ -1,10 +1,13 @@
 .container {
     padding: 48px;
+    width: 60%;
+    margin: auto;
 }
 
 .tag-group-name {
     font-weight: bold;
     width: 80px;
+    min-width: 80px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

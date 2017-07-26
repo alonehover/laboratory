@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, "../src/js/app.js"),
@@ -23,8 +24,21 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                include: path.resolve(__dirname, "../src"),
-                loader: "style-loader!css-loader!sass-loader"
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                importLoaders: 1
+                            }
+                        },
+                        {
+                            loader: 'postcss-loader'
+                        },
+                        "sass-loader"
+                    ]
+                })
             },
             {
                 test: /\.(gif|jpg|png|woff|woff2|svg|eot|ttf)\??.*$/,
@@ -49,9 +63,10 @@ module.exports = {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
+        new ExtractTextPlugin('../css/style.css'),
         new HtmlWebpackPlugin({
             filename: path.resolve(__dirname, "../app/view/index.html"),
             template: "./src/tpl/index.prod.html"
-        }),
+        })
     ]
 }
