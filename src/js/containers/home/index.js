@@ -35,7 +35,7 @@ class Home extends Component {
                                             item.list.map((tag, index) => {
                                                 return (
                                                     <li className="tag-item" key={index}>
-                                                        <a href={tag.url}>
+                                                        <a href={tag.url} target="_blank">
                                                             <div className="tag-name">{tag.name}</div>
                                                         </a>
                                                     </li>
