@@ -1,30 +1,20 @@
 'use strict'
-const Koa = require('koa')
-const server = require('koa-static')
-const config = require('./config')
+
+const express = require('express')
 const router = require('./router')
 const path = require('path')
-const views = require('koa-views')
-const bodyParser = require('koa-bodyparser');
+const config = require('./config')
 
-let app = new Koa()
-
-app.use(bodyParser())
-
-app.use(async (ctx, next) => {
-    const start = new Date
-    await next()
-    const ms = new Date - start
-    console.log('%s %s - %sms', ctx.method, ctx.url, ms);
-})
-
-app.use(server(path.join(__dirname, '..', 'app/public')))
-app.use(views(path.join(__dirname, '..', 'app/view'), { map: {html: 'ejs'} }))
+const app = express()
 
 router(app)
 
-app.listen(config.port, function() {
-    console.log("listen port " + config.port);
+app.use(express.static(path.join(__dirname, '..', 'app/public')))
+app.set('views', path.join(__dirname, '..', 'app/view')); // specify the views directory
+app.set('view engine', 'ejs'); // register the template engine
+
+app.listen(config.port, function () {
+    console.log('Example app listening on port 3000!')
 })
 
 app.on('error', function(err) {

@@ -11,7 +11,8 @@ import Containers from "./containers"
 
 const routes = [
     {path: "/", exact: true, component: "Home"},
-    {path: "/create", component: "Create"}
+    {path: "/create", component: "Create"},
+    {path: "/trip", component: "Trip"}
 ]
 
 const NoMatch = ({ location }) => (

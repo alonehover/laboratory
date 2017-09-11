@@ -1,15 +1,22 @@
-const mongoose = require('mongoose')
+const mysql = require('mysql')
+const config = require('../config')
 
-mongoose.Promise = global.Promise;
-// 连接字符串格式为mongodb://主机/数据库名
-mongoose.connect('mongodb://localhost/laboratory');
+const pool = mysql.createPool(config.mysql);
 
-const db = mongoose.connection;
+module.exports = function(sql, option, callback) {
+    pool.getConnection(function(err, connection) {
+        if(err) throw err;
+        
+        console.log('mysql数据库连接成功');
 
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-  console.log.bind(console, 'mongo sql connection success');
-});
+        connection.query(sql, option, function(err, res, fields) {
+            connection.release();
 
-module.exports = mongoose
+            if(err) {
+                return callback(err);
+            }
+
+            callback(null, res);
+        })
+    });
+}
