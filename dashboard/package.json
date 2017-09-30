@@ -22,16 +22,19 @@
   },
   "homepage": "https://github.com/alonehover/laboratory#readme",
   "dependencies": {
+    "antd": "^2.13.4",
     "axios": "^0.16.2",
     "babel-runtime": "^6.23.0",
     "ejs": "^2.5.6",
     "express": "^4.15.4",
-    "mysql": "^2.14.1"
+    "mysql": "^2.14.1",
+    "webpack-dev-middleware": "^1.12.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.1.1",
+    "babel-plugin-import": "^1.6.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.2",
