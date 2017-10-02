@@ -7,11 +7,13 @@ const Home = {
     init(app) {
         // app.get('/api/tag', this.tagList),
         // app.post('/api/tag/add', this.addTag),
-        app.get('/', this.show)
+        app.get('/api/tag', this.show)
     },
 
     show(req, res) {
-        res.render('index')
+        Link.getAll(function(err, data) {
+            res.json(Response(data))
+        })
     }
 }
 

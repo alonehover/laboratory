@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "cross-env NODE_ENV=development nodemon server --watch server",
+    "server": "cross-env NODE_ENV=development nodemon server",
     "client": "cross-env Node_ENV=development webpack-dev-server --config ./webpack/webpack.dev.config.js",
     "build": "cross-env Node_ENV=production webpack --config ./webpack/webpack.prod.config.js --progress",
     "start": "cross-env NODE_ENV=development "
@@ -27,9 +27,8 @@
     "babel-runtime": "^6.23.0",
     "ejs": "^2.5.6",
     "express": "^4.15.4",
-    "mysql": "^2.14.1",
-    "webpack-dev-middleware": "^1.12.0",
-    "webpack-hot-middleware": "^2.19.1"
+    "less-loader": "^4.0.5",
+    "mysql": "^2.14.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -48,16 +47,17 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "html-loader": "^0.4.5",
     "html-webpack-plugin": "^2.29.0",
-    "node-sass": "^4.5.3",
+    "less": "^2.7.2",
     "open-browser-webpack-plugin": "0.0.5",
     "postcss-loader": "^2.0.6",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "sass-loader": "^6.0.3",
     "style-loader": "^0.18.2",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.5.0"
+    "webpack-dev-middleware": "^1.12.0",
+    "webpack-dev-server": "^2.5.0",
+    "webpack-hot-middleware": "^2.19.1"
   }
 }

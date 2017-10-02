@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 
 import Route from "./router"
 
-import "../sass/app.scss"
+import "../less/app.less"
 
 ReactDOM.render(
     <Route />,

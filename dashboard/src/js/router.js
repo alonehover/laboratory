@@ -8,11 +8,10 @@ import {
 } from 'react-router-dom'
 
 import Containers from "./containers"
+import Root from "./containers/root"
 
 const routes = [
-    {path: "/", exact: true, component: "Home"},
-    {path: "/create", component: "Create"},
-    {path: "/trip", component: "Trip"}
+    {path: "/", exact: true, component: Containers.Home}
 ]
 
 const NoMatch = ({ location }) => (
@@ -24,14 +23,16 @@ const NoMatch = ({ location }) => (
 const Router = () => {
     return (
         <BrowserRouter>
-            <Switch>
-                {
-                    routes.map((route, k) => (
-                        <Route exact={route.exact} path={route.path} key={k} component={Containers[route.component]} />
-                    ))
-                }
-                <Route component={NoMatch}/>
-            </Switch>
+            <Root>
+                <Switch>
+                    {
+                        routes.map((r, k) => (
+                            <Route exact={r.exact} path={r.path} key={k} component={r.component} />
+                        ))
+                    }
+                    <Route component={NoMatch}/>
+                </Switch>
+            </Root>
         </BrowserRouter>
     )
 }
