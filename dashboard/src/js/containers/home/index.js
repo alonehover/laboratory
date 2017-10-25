@@ -27,6 +27,7 @@ class Home extends Component {
                 <ul className="tag-list">
                     list
                 </ul>
+                <div className="empty animation"></div>
             </div>
         )
     }
