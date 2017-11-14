@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "cross-env NODE_ENV=development nodemon server",
-    "client": "cross-env Node_ENV=development webpack-dev-server --config ./webpack/webpack.dev.config.js",
+    "dev": "cross-env NODE_ENV=development nodemon server",
     "build": "cross-env Node_ENV=production webpack --config ./webpack/webpack.prod.config.js --progress",
     "start": "cross-env NODE_ENV=development "
   },
@@ -25,6 +24,7 @@
     "antd": "^2.13.10",
     "axios": "^0.16.2",
     "babel-runtime": "^6.23.0",
+    "body-parser": "^1.18.2",
     "ejs": "^2.5.6",
     "express": "^4.15.4",
     "less-loader": "^4.0.5",

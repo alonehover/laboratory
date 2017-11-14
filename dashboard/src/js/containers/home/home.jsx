@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Icon, Input, Button, Table } from 'antd'
+import { Form, Icon, Input, Button, Table, message } from 'antd'
 import API from '../../api'
 
 import './home.less'
@@ -15,31 +15,57 @@ class Home extends Component {
                 name: "",
                 url: "",
                 category: ""
-            }
+            },
+            list: []
         }
     }
 
-    state = {
-        list: []
-    }
-
     componentDidMount() {
-        // const list = await API.tagList()
-        // this.setState({list})
+        API.BASE.linkList().then(res => {
+            console.log(res);
+            this.setState({
+                list: res
+            })
+        })
     }
 
     handleChange = (e, type) => {
         let formdata = this.state.formdata
         formdata[type] = e.target.value
-        console.log(formdata)
         this.setState(formdata)
     }
 
     handleAdd = () => {
-        console.log(this.state.formdata);
+        const param = this.state.formdata;
+        for (var key in param) {
+            if (param.hasOwnProperty(key)) {
+                if(param[key] === "") {
+                    message.error('数据不能为空！');
+                    return false
+                }                
+            }
+        }
+
+        API.BASE.addLink(param).then(res => {
+            message.success("添加成功！");
+        })
     }
 
     render() {
+
+        const columns = [{
+            title: 'name',
+            dataIndex: 'name',
+            key: 'name',
+        }, {
+            title: 'url',
+            dataIndex: 'url',
+            key: 'url',
+        }, {
+            title: 'category',
+            dataIndex: 'category',
+            key: 'category',
+        }];
 
         return (
             <div className="container">
@@ -55,8 +81,8 @@ class Home extends Component {
                     </FormItem>
                     <Button onClick={this.handleAdd}>Add</Button>
                 </Form>
-                <div style={{marginTop: 24}}>
-                    <Table />
+                <div style={{marginTop: 24, background: "#FFF", padding: 24}}>
+                    <Table dataSource={this.state.list} columns={columns} rowKey="id"/>
                 </div>
             </div>
         )
