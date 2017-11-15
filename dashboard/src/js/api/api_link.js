@@ -5,8 +5,23 @@ const API = {
         return GET("api/link/list")
     },
 
-    addLink: (params) => {
+    addLink: params => {
         return POST("api/link/add", params)
+    },
+
+    removeLink: params => {
+        return POST("api/link/del", {
+            id: params
+        })
+    },
+
+    updateLink: params => {
+        return POST("api/link/update", {
+            id: params.id,
+            name: params.name,
+            url: params.url,
+            category: params.category
+        })
     }
 }
 

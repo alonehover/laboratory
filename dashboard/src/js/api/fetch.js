@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import {message} from 'antd'
 
 const HOST_URL = "/"
 
@@ -11,12 +12,14 @@ const GET = (url, params) => {
             return json.data
         }
 
-        return Promise.reject(json.message)
+        return Promise.reject(json.msg)
     }).catch(err => {
         if(typeof err === "string") {
             console.error("api error : " + err)
+            message.error("api error : " + err)
         }else {
             console.error("api error : 接口请求失败")
+            message.error("api error : 接口请求失败")
         }
     })
 }
@@ -27,12 +30,14 @@ const POST = (url, params) => {
             return json.data
         }
 
-        return Promise.reject(json.message)
+        return Promise.reject(json.msg)
     }).catch(err => {
         if(typeof err === "string") {
             console.error("api error : " + err)
+            message.error("api error : " + err)
         }else {
             console.error("api error : 接口请求失败")
+            message.error("api error : 接口请求失败")
         }
     })
 }
