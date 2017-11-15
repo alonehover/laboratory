@@ -3,31 +3,11 @@ import {action, observable} from 'mobx'
 let store = null
 
 class Store {
-    // @observable tags = []
-    @observable lastUpdate = 0
-    @observable light = false
+    @observable list = []
 
-    constructor (isServer, lastUpdate) {
-        this.lastUpdate = lastUpdate
+    @action setList = (data) => {
+        this.list = data
     }
-
-    @action start = () => {
-        this.timer = setInterval(() => {
-            this.lastUpdate = Date.now()
-            this.light = true
-        })
-    }
-
-    stop = () => clearInterval(this.timer)
 }
 
-export function DataStore (isServer, lastUpdate = Date.now()) {
-    if(isServer) {
-        return new Store(isServer, lastUpdate)
-    }else {
-        if(store === null) {
-            store = new Store(isServer, lastUpdate)
-        }
-        return store
-    }
-} 
+export default new Store()

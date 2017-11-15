@@ -18,7 +18,8 @@ const groupBy = data => {
     for (const key in obj) {
         var item = {}
         if (obj.hasOwnProperty(key)) {
-            item[key] = obj[key]
+            item.name = key
+            item.val = obj[key]
             result.push(item);
         }
     }
