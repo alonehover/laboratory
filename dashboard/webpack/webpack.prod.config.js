@@ -23,7 +23,7 @@ module.exports = {
                 loader: 'style-loader!css-loader'
             },
             {
-                test: /\.scss$/,
+                test: /\.less$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [
@@ -36,7 +36,7 @@ module.exports = {
                         {
                             loader: 'postcss-loader'
                         },
-                        "sass-loader"
+                        "less-loader"
                     ]
                 })
             },
@@ -65,7 +65,7 @@ module.exports = {
         }),
         new ExtractTextPlugin('../css/style.css'),
         new HtmlWebpackPlugin({
-            filename: path.resolve(__dirname, "../app/view/index.html"),
+            filename: path.resolve(__dirname, "../app/view/index.ejs"),
             template: "./src/tpl/index.prod.html"
         })
     ]

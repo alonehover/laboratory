@@ -30,6 +30,7 @@ const Router = () => {
                             <Route exact={r.exact} path={r.path} key={k} component={r.component} />
                         ))
                     }
+
                     <Route component={NoMatch}/>
                 </Switch>
             </Root>

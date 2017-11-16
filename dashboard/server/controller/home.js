@@ -10,7 +10,8 @@ const Home = {
         app.get('/', this.show)
     },
 
-    show(req, res) {
+    show(req, res, next) {
+        console.log("object");
         res.render('index')
     }
 }
