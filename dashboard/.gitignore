@@ -2,3 +2,4 @@
 *.log
 .EDV
 .vscode
+dashboard/server/config.js
