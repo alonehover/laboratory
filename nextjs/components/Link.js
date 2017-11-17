@@ -6,7 +6,7 @@ import axios from 'axios'
 @inject('store') @observer
 class Page extends React.Component {
     componentDidMount() {
-        axios.get("http://localhost:8080/api/link/group").then(res => res.data).then(res => {
+        axios.get("http://api.wanana.cc/api/link/group").then(res => res.data).then(res => {
             if(res.code === 1) {
                 this.props.store.setList(res.data)
             }
