@@ -4,3 +4,4 @@
 .vscode
 server/config.js
 app/public/admin
+app/view/admin/index.ejs
