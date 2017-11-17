@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Link</title>
+    <link rel="stylesheet" href="css/link.css">
+<body>
+    <!-- <div id="APP">{{title}}</div> -->
+    <h1><%= title %></h1>
+    <% for(var i=0; i<links.length; i++) {%>
+        <section class="group">
+            <h3 class="group-title"><%= links[i].name %></h3>
+            <ul class="group-list">
+                <% for(var j=0; j<links[i].val.length; j++) {%>
+                    <li class="group-item">
+                        <a href="<%= links[i].val[j].url %>"><%= links[i].val[j].name %></a>
+                    </li>
+                <% } %>
+            </ul>
+        </section>
+     <% } %>
+    <script src="https://cdn.bootcss.com/vue/2.5.3/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+    <script src="js/link.js"></script>
+</html>

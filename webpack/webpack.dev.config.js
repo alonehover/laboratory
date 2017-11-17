@@ -14,7 +14,7 @@ module.exports = {
         ]
     },
     output: {
-        path: path.resolve(__dirname, "../app/public/js/"),
+        path: path.resolve(__dirname, "../app/"),
         publicPath: "/js/",
         filename: "[name].js"
     },
@@ -48,18 +48,6 @@ module.exports = {
         // new OpenBrowserPlugin({
         //     url: "http://localhost:8081"
         // }),
-        // new CopyWebpackPlugin([
-        //     {
-        //         from: path.resolve(__dirname, "../src/tpl/index.dev.html"),
-        //         to: path.resolve(__dirname, "../app/view/index.ejs"),
-        //         force: true
-        //     }
-        // ]),
         new webpack.HotModuleReplacementPlugin()
-
-        // new HtmlWebpackPlugin({
-        //     filename: "../../view/index.html",
-        //     template: "./src/tpl/index.dev.html"
-        // }),
     ]
 }

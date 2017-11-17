@@ -1,0 +1,32 @@
+body, html {
+    color: #666;
+    padding: 0 24px;
+    margin: auto;
+    background: #efefef;
+    font-family: Helvetica Neue For Number,-apple-system,Segoe UI,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;    
+}
+
+ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+  overflow: hidden;
+}
+
+li {
+  line-height: 24px;
+  margin-left: 24px;
+  float: left;
+}
+
+a {
+    color: #000;
+
+}
+
+h1 {
+    color: #aaa;
+}

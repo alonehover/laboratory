@@ -1,5 +1,5 @@
-const Link = require('../model/link.model')
-const Tool = require('../tool')
+const Link = require('../../model/link.model')
+const Tool = require('../../tool')
 
 const { Response } = Tool
 

@@ -11,7 +11,7 @@ import Containers from "./containers"
 import Root from "./containers/root"
 
 const routes = [
-    {path: "/", exact: true, component: Containers.Home}
+    {path: "/admin", component: Containers.Home}
 ]
 
 const NoMatch = ({ location }) => (
@@ -25,13 +25,13 @@ const Router = () => {
         <BrowserRouter>
             <Root>
                 <Switch>
-                    {
-                        routes.map((r, k) => (
+                    {routes.map((r, k) => {
+                        return (
                             <Route exact={r.exact} path={r.path} key={k} component={r.component} />
-                        ))
-                    }
+                        )
+                    })}
 
-                    <Route component={NoMatch}/>
+                    <Route path="/*" component={NoMatch}/>
                 </Switch>
             </Root>
         </BrowserRouter>
