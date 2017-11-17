@@ -3,3 +3,4 @@
 .EDV
 .vscode
 server/config.js
+app/public/admin
