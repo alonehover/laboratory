@@ -6,9 +6,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: path.resolve(__dirname, "../src/js/app.js"),
     output: {
-        path: path.resolve(__dirname, "../app/public/admin/js"),
-        publicPath: "/js/",
-        filename: "app.js"
+        path: path.resolve(__dirname, "../app/public/"),
+        publicPath: "/",
+        filename: "admin/js/app.js"
     },
     module: {
         loaders: [
@@ -63,7 +63,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
-        new ExtractTextPlugin('../css/style.css'),
+        new ExtractTextPlugin('admin/css/style.css'),
         new HtmlWebpackPlugin({
             filename: path.resolve(__dirname, "../app/view/admin/index.ejs"),
             template: "./src/tpl/index.prod.html"

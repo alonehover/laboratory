@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development nodemon server",
     "build": "cross-env Node_ENV=production webpack --config ./webpack/webpack.prod.config.js --progress",
-    "start": "cross-env NODE_ENV=development "
+    "start": "cross-env Node_ENV=production node server"
   },
   "repository": {
     "type": "git",
