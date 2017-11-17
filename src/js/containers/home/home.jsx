@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Icon, Input, Button, Table, message } from 'antd'
+import { Form, Input, Button, Table, message } from 'antd'
 import API from '../../api'
 
 import './home.less'

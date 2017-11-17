@@ -4,7 +4,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: path.resolve(__dirname, "../src/js/app.js"),
+    entry: {
+        app: path.resolve(__dirname, "../src/js/app.js"),
+        vendor: [
+            "react",
+            "react-dom",
+            "react-router-dom",
+            "axios"
+        ]
+    },
     output: {
         path: path.resolve(__dirname, "../app/public/"),
         publicPath: "/",
@@ -38,7 +46,8 @@ module.exports = {
                         },
                         "less-loader"
                     ]
-                })
+                }),
+                exclude: /node_modules/
             },
             {
                 test: /\.(gif|jpg|png|woff|woff2|svg|eot|ttf)\??.*$/,
@@ -50,6 +59,10 @@ module.exports = {
         extensions: [".js", ".jsx"]
     },
     plugins: [
+        new webpack.optimize.CommonsChunkPlugin({ // 提取不变的js库单独生成js便于缓存
+            names: ["vendor"],
+            filename: "admin/js/[name].[chunkhash:8].js"
+        }),
         new webpack.optimize.UglifyJsPlugin({ // 压缩js
             compress: {
                 warnings: false
@@ -57,6 +70,10 @@ module.exports = {
             output: {
                 comments: false  // remove all comments
             }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true,
+            debug: false
         }),
         new webpack.DefinePlugin({
             'process.env': {
