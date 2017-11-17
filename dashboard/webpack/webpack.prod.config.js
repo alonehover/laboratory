@@ -65,7 +65,7 @@ module.exports = {
         }),
         new ExtractTextPlugin('../css/style.css'),
         new HtmlWebpackPlugin({
-            filename: path.resolve(__dirname, "../app/view/index.ejs"),
+            filename: path.resolve(__dirname, "../app/view/admin/index.ejs"),
             template: "./src/tpl/index.prod.html"
         })
     ]
