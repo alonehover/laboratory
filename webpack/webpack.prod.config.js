@@ -16,7 +16,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "../app/public/"),
         publicPath: "/",
-        filename: "admin/js/app.js"
+        filename: "admin/js/app.[chunkhash:8].js"
     },
     module: {
         loaders: [
@@ -80,7 +80,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
-        new ExtractTextPlugin('admin/css/style.css'),
+        new ExtractTextPlugin('admin/css/style.[contenthash:8].css'),
         new HtmlWebpackPlugin({
             filename: path.resolve(__dirname, "../app/view/admin/index.ejs"),
             template: "./src/tpl/index.prod.html"
