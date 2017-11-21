@@ -6,7 +6,7 @@ body, html {
 }
 
 body {
-    padding: 0 24px;
+    padding: 0 24px 48px;
 }
 
 ul, li {
@@ -28,7 +28,7 @@ ul {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: background 600ms cubic-bezier(0.13, 0.13, 0.51, 1.21);    
+    transition: background 600ms cubic-bezier(0.31, 0.29, 0.16, 1.01);    
 }
 
 .group-item:hover {
