@@ -19,6 +19,10 @@ ul {
   overflow: hidden;
 }
 
+h1,h2,h3,h4,h5 {
+    margin: 12px 0;
+}
+
 .group-item {
     line-height: 32px;
     margin-left: 12px;
@@ -43,6 +47,7 @@ ul {
 .group-item > a {
     color: #000;
     font-size: 18px;
+    font-weight: lighter;
     text-decoration: none;
 }
 
