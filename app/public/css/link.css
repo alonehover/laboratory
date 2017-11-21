@@ -1,9 +1,12 @@
 body, html {
     color: #666;
-    padding: 0 24px;
     margin: auto;
     background: #efefef;
     font-family: Helvetica Neue For Number,-apple-system,Segoe UI,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;    
+}
+
+body {
+    padding: 0 24px;
 }
 
 ul, li {
@@ -16,17 +19,42 @@ ul {
   overflow: hidden;
 }
 
-li {
-  line-height: 24px;
-  margin-left: 24px;
-  float: left;
+.group-item {
+    line-height: 32px;
+    margin-left: 12px;
+    padding-left: 8px;
+    float: left;
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: background 600ms cubic-bezier(0.13, 0.13, 0.51, 1.21);    
 }
 
-a {
+.group-item:hover {
+    background: #000;
+    border-radius: 2px;
+}
+
+.group-item:hover > a {
+    color: #efefef;
+}
+
+.group-item > a {
     color: #000;
     font-size: 18px;
+    text-decoration: none;
 }
+
+
 
 h1 {
     color: #aaa;
+}
+
+@media screen and (min-width: 769px){
+    body {
+        width: 60vw;
+        margin: auto;
+    }
 }
