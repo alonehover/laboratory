@@ -148,7 +148,7 @@
         CANVAS: 'runner-canvas',
         CONTAINER: 'runner-container',
         CRASHED: 'crashed',
-        ICON: 'icon-offline',
+        // ICON: 'icon-offline',
         INVERTED: 'inverted',
         SNACKBAR: 'snackbar',
         SNACKBAR_SHOW: 'snackbar-show',
@@ -236,10 +236,10 @@
          * Whether the easter egg has been disabled. CrOS enterprise enrolled devices.
          * @return {boolean}
          */
-        isDisabled: function () {
-            // return loadTimeData && loadTimeData.valueExists('disabledEasterEgg');
-            return false
-        },
+        // isDisabled: function () {
+        //     // return loadTimeData && loadTimeData.valueExists('disabledEasterEgg');
+        //     return false
+        // },
 
         /**
          * For disabled instances, set up a snackbar with the disabled message.
@@ -309,26 +309,26 @@
         /**
          * Load and decode base 64 encoded sounds.
          */
-        loadSounds: function () {
-            if (!IS_IOS) {
-                this.audioContext = new AudioContext();
+        // loadSounds: function () {
+        //     if (!IS_IOS) {
+        //         this.audioContext = new AudioContext();
 
-                var resourceTemplate =
-                    document.getElementById(this.config.RESOURCE_TEMPLATE_ID).content;
+        //         var resourceTemplate =
+        //             document.getElementById(this.config.RESOURCE_TEMPLATE_ID).content;
 
-                for (var sound in Runner.sounds) {
-                    var soundSrc =
-                        resourceTemplate.getElementById(Runner.sounds[sound]).src;
-                    soundSrc = soundSrc.substr(soundSrc.indexOf(',') + 1);
-                    var buffer = decodeBase64ToArrayBuffer(soundSrc);
+        //         for (var sound in Runner.sounds) {
+        //             var soundSrc =
+        //                 resourceTemplate.getElementById(Runner.sounds[sound]).src;
+        //             soundSrc = soundSrc.substr(soundSrc.indexOf(',') + 1);
+        //             var buffer = decodeBase64ToArrayBuffer(soundSrc);
 
-                    // Async, so no guarantee of order in array.
-                    this.audioContext.decodeAudioData(buffer, function (index, audioData) {
-                        this.soundFx[index] = audioData;
-                    }.bind(this, sound));
-                }
-            }
-        },
+        //             // Async, so no guarantee of order in array.
+        //             this.audioContext.decodeAudioData(buffer, function (index, audioData) {
+        //                 this.soundFx[index] = audioData;
+        //             }.bind(this, sound));
+        //         }
+        //     }
+        // },
 
         /**
          * Sets the game speed. Adjust the speed accordingly if on a smaller screen.
@@ -352,16 +352,17 @@
          */
         init: function () {
             // Hide the static icon.
-            document.querySelector('.' + Runner.classes.ICON).style.visibility =
-                'hidden';
+            // document.querySelector('.' + Runner.classes.ICON).style.visibility =
+            //     'hidden';
 
-            this.adjustDimensions();
-            this.setSpeed();
+            this.adjustDimensions();    // 调整画布
+            this.setSpeed();    // 设置速度
 
             this.containerEl = document.createElement('div');
             this.containerEl.className = Runner.classes.CONTAINER;
 
             // Player canvas container.
+            // 创建画布
             this.canvas = createCanvas(this.containerEl, this.dimensions.WIDTH,
                 this.dimensions.HEIGHT, Runner.classes.PLAYER);
 
@@ -371,14 +372,17 @@
             Runner.updateCanvasScaling(this.canvas);
 
             // Horizon contains clouds, obstacles and the ground.
+            // 绘制云朵，障碍物，地面
             this.horizon = new Horizon(this.canvas, this.spriteDef, this.dimensions,
                 this.config.GAP_COEFFICIENT);
 
-            // Distance meter
+            // Distance 
+            // 距离计算
             this.distanceMeter = new DistanceMeter(this.canvas,
                 this.spriteDef.TEXT_SPRITE, this.dimensions.WIDTH);
 
             // Draw t-rex
+            // 绘制人物
             this.tRex = new Trex(this.canvas, this.spriteDef.TREX);
 
             this.outerContainerEl.appendChild(this.containerEl);
@@ -681,7 +685,7 @@
                     e.preventDefault();
                     // Starting the game for the first time.
                     if (!this.playing) {
-                        this.loadSounds();
+                        // this.loadSounds();
                         this.playing = true;
                         this.update();
                         if (window.errorPageController) {
@@ -936,11 +940,12 @@
 
         // Query the various pixel ratios
         var devicePixelRatio = Math.floor(window.devicePixelRatio) || 1;
-        var backingStoreRatio = Math.floor(context.webkitBackingStorePixelRatio) || 1;
-        var ratio = devicePixelRatio / backingStoreRatio;
+        // webkitBackingStorePixelRatio 被废除了
+        // var backingStoreRatio = Math.floor(context.webkitBackingStorePixelRatio) || 1;
+        var ratio = devicePixelRatio;
 
         // Upscale the canvas if the two ratios don't match
-        if (devicePixelRatio !== backingStoreRatio) {
+        if (devicePixelRatio > 1) {
             var oldWidth = opt_width || canvas.width;
             var oldHeight = opt_height || canvas.height;
 
@@ -2251,6 +2256,7 @@
 
     /**
      * Nightmode shows a moon and stars on the horizon.
+     * 夜晚
      */
     function NightMode(canvas, spritePos, containerWidth) {
         this.spritePos = spritePos;
