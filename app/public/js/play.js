@@ -1,12 +1,7 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-// extract from chromium source code by @liuwayong
 (function () {
     'use strict';
     /**
      * T-Rex runner.
-     * 游戏逻辑控制函数
      * @param {string} outerContainerId Outer containing element id.
      * @param {Object} opt_config
      * @constructor
@@ -17,17 +12,14 @@
         if (Runner.instance_) {
             return Runner.instance_;
         }
-
         Runner.instance_ = this;
-
+        console.log(document.querySelector(outerContainerId));
         this.outerContainerEl = document.querySelector(outerContainerId);
         this.containerEl = null;
         this.snackbarEl = null;
 
-        // this.detailsButton = this.outerContainerEl.querySelector('#details-button');
-
         this.config = opt_config || Runner.config;
-
+        // Logical dimensions of the container.
         this.dimensions = Runner.defaultDimensions;
 
         this.canvas = null;
@@ -68,11 +60,13 @@
         this.images = {};
         this.imagesLoaded = 0;
 
-        if (this.isDisabled()) {
-            this.setupDisabledRunner();
-        } else {
-            this.loadImages();
-        }
+        // if (this.isDisabled()) {
+        //     this.setupDisabledRunner();
+        // } else {
+        //     this.loadImages();
+        // }
+
+        this.loadImages();
     }
     window['Runner'] = Runner;
 
@@ -101,6 +95,9 @@
     /** @const */
     var IS_TOUCH_ENABLED = 'ontouchstart' in window;
 
+    // /** @const */
+    // var ARCADE_MODE_URL = 'chrome://dino/';
+
     /**
      * Default game configuration.
      * @enum {number}
@@ -126,7 +123,9 @@
         MOBILE_SPEED_COEFFICIENT: 1.2,
         RESOURCE_TEMPLATE_ID: 'audio-resources',
         SPEED: 6,
-        SPEED_DROP_COEFFICIENT: 3
+        SPEED_DROP_COEFFICIENT: 3,
+        // ARCADE_MODE_INITIAL_TOP_POSITION: 35,
+        // ARCADE_MODE_TOP_POSITION_PERCENT: 0.1
     };
 
 
@@ -145,6 +144,7 @@
      * @enum {string}
      */
     Runner.classes = {
+        // ARCADE_MODE: 'arcade-mode',
         CANVAS: 'runner-canvas',
         CONTAINER: 'runner-container',
         CRASHED: 'crashed',
@@ -158,6 +158,7 @@
 
     /**
      * Sprite definition layout of the spritesheet.
+     * 雪碧图的相对坐标
      * @enum {Object}
      */
     Runner.spriteDefinition = {
@@ -230,7 +231,6 @@
         LOAD: 'load'
     };
 
-
     Runner.prototype = {
         /**
          * Whether the easter egg has been disabled. CrOS enterprise enrolled devices.
@@ -238,26 +238,26 @@
          */
         isDisabled: function () {
             // return loadTimeData && loadTimeData.valueExists('disabledEasterEgg');
-            return false;
+            return false
         },
 
         /**
          * For disabled instances, set up a snackbar with the disabled message.
          */
-        setupDisabledRunner: function () {
-            this.containerEl = document.createElement('div');
-            this.containerEl.className = Runner.classes.SNACKBAR;
-            this.containerEl.textContent = loadTimeData.getValue('disabledEasterEgg');
-            this.outerContainerEl.appendChild(this.containerEl);
+        // setupDisabledRunner: function () {
+        //     this.containerEl = document.createElement('div');
+        //     this.containerEl.className = Runner.classes.SNACKBAR;
+        //     // this.containerEl.textContent = loadTimeData.getValue('disabledEasterEgg');
+        //     this.outerContainerEl.appendChild(this.containerEl);
 
-            // Show notification when the activation key is pressed.
-            document.addEventListener(Runner.events.KEYDOWN, function (e) {
-                if (Runner.keycodes.JUMP[e.keyCode]) {
-                    this.containerEl.classList.add(Runner.classes.SNACKBAR_SHOW);
-                    document.querySelector('.icon').classList.add('icon-disabled');
-                }
-            }.bind(this));
-        },
+        //     // Show notification when the activation key is pressed.
+        //     document.addEventListener(Runner.events.KEYDOWN, function (e) {
+        //         if (Runner.keycodes.JUMP[e.keyCode]) {
+        //             this.containerEl.classList.add(Runner.classes.SNACKBAR_SHOW);
+        //             document.querySelector('.icon').classList.add('icon-disabled');
+        //         }
+        //     }.bind(this));
+        // },
 
         /**
          * Setting individual settings for debugging.
@@ -400,7 +400,6 @@
         createTouchController: function () {
             this.touchController = document.createElement('div');
             this.touchController.className = Runner.classes.TOUCH_CONTROLLER;
-            this.outerContainerEl.appendChild(this.touchController);
         },
 
         /**
@@ -421,9 +420,16 @@
             this.resizeTimerId_ = null;
 
             var boxStyles = window.getComputedStyle(this.outerContainerEl);
-            var padding = Number(boxStyles.paddingLeft.substr(0, boxStyles.paddingLeft.length - 2));
+            var padding = Number(boxStyles.paddingLeft.substr(0,
+                boxStyles.paddingLeft.length - 2));
 
             this.dimensions.WIDTH = this.outerContainerEl.offsetWidth - padding * 2;
+            // if (this.isArcadeMode()) {
+            //     this.dimensions.WIDTH = Math.min(DEFAULT_WIDTH, this.dimensions.WIDTH);
+            //     if (this.activated) {
+            //         this.setArcadeModeContainerScale();
+            //     }
+            // }
 
             // Redraw the elements back onto the canvas.
             if (this.canvas) {
@@ -477,9 +483,9 @@
                 this.containerEl.style.webkitAnimation = 'intro .4s ease-out 1 both';
                 this.containerEl.style.width = this.dimensions.WIDTH + 'px';
 
-                // if (this.touchController) {
-                //     this.outerContainerEl.appendChild(this.touchController);
-                // }
+                if (this.touchController) {
+                    this.outerContainerEl.appendChild(this.touchController);
+                }
                 this.playing = true;
                 this.activated = true;
             } else if (this.crashed) {
@@ -492,6 +498,9 @@
          * Update the game status to started.
          */
         startGame: function () {
+            // if (this.isArcadeMode()) {
+            //     this.setArcadeMode();
+            // }
             this.runningTime = 0;
             this.playingIntro = false;
             this.tRex.playingIntro = false;
@@ -666,9 +675,11 @@
                 e.preventDefault();
             }
 
-            if (e.target != this.detailsButton) {
-                if (!this.crashed && (Runner.keycodes.JUMP[e.keyCode] ||
-                    e.type == Runner.events.TOUCHSTART)) {
+            if (!this.crashed && !this.paused) {
+                if (Runner.keycodes.JUMP[e.keyCode] ||
+                    e.type == Runner.events.TOUCHSTART) {
+                    e.preventDefault();
+                    // Starting the game for the first time.
                     if (!this.playing) {
                         this.loadSounds();
                         this.playing = true;
@@ -677,28 +688,24 @@
                             errorPageController.trackEasterEgg();
                         }
                     }
-                    //  Play sound effect and jump on starting the game for the first time.
+                    // Start jump.
                     if (!this.tRex.jumping && !this.tRex.ducking) {
                         this.playSound(this.soundFx.BUTTON_PRESS);
                         this.tRex.startJump(this.currentSpeed);
                     }
+                } else if (this.playing && Runner.keycodes.DUCK[e.keyCode]) {
+                    e.preventDefault();
+                    if (this.tRex.jumping) {
+                        // Speed drop, activated only when jump key is not pressed.
+                        this.tRex.setSpeedDrop();
+                    } else if (!this.tRex.jumping && !this.tRex.ducking) {
+                        // Duck.
+                        this.tRex.setDuck(true);
+                    }
                 }
-
-                if (this.crashed && e.type == Runner.events.TOUCHSTART &&
-                    e.currentTarget == this.containerEl) {
-                    this.restart();
-                }
-            }
-
-            if (this.playing && !this.crashed && Runner.keycodes.DUCK[e.keyCode]) {
-                e.preventDefault();
-                if (this.tRex.jumping) {
-                    // Speed drop, activated only when jump key is not pressed.
-                    this.tRex.setSpeedDrop();
-                } else if (!this.tRex.jumping && !this.tRex.ducking) {
-                    // Duck.
-                    this.tRex.setDuck(true);
-                }
+            } else if (this.crashed && e.type == Runner.events.TOUCHSTART &&
+                e.currentTarget == this.containerEl) {
+                this.restart();
             }
         },
 
@@ -772,7 +779,7 @@
 
             this.stop();
             this.crashed = true;
-            this.distanceMeter.acheivement = false;
+            this.distanceMeter.achievement = false;
 
             this.tRex.update(100, Trex.status.CRASHED);
 
@@ -817,6 +824,7 @@
                 this.playCount++;
                 this.runningTime = 0;
                 this.playing = true;
+                this.paused = false;
                 this.crashed = false;
                 this.distanceRan = 0;
                 this.setSpeed(this.config.SPEED);
@@ -831,6 +839,41 @@
                 this.update();
             }
         },
+
+        /**
+         * Whether the game should go into arcade mode.
+         * @return {boolean}
+         */
+        // isArcadeMode: function () {
+        //     return document.title == ARCADE_MODE_URL;
+        // },
+
+        /**
+         * Hides offline messaging for a fullscreen game only experience.
+         */
+        // setArcadeMode: function () {
+        //     document.body.classList.add(Runner.classes.ARCADE_MODE);
+        //     this.setArcadeModeContainerScale();
+        // },
+
+        /**
+         * Sets the scaling for arcade mode.
+         */
+        // setArcadeModeContainerScale: function () {
+        //     var windowHeight = window.innerHeight;
+        //     var scaleHeight = windowHeight / this.dimensions.HEIGHT;
+        //     var scaleWidth = window.innerWidth / this.dimensions.WIDTH;
+        //     var scale = Math.max(1, Math.min(scaleHeight, scaleWidth));
+        //     var scaledCanvasHeight = this.dimensions.HEIGHT * scale;
+        //     // Positions the game container at 10% of the available vertical window
+        //     // height minus the game container height.
+        //     var translateY = Math.ceil(Math.max(0, (windowHeight - scaledCanvasHeight -
+        //         Runner.config.ARCADE_MODE_INITIAL_TOP_POSITION) *
+        //         Runner.config.ARCADE_MODE_TOP_POSITION_PERCENT)) *
+        //         window.devicePixelRatio;
+        //     this.containerEl.style.transform = 'scale(' + scale + ') translateY(' +
+        //         translateY + 'px)';
+        // },
 
         /**
          * Pause the game if the tab is not in focus.
@@ -1864,7 +1907,7 @@
         this.container = null;
 
         this.digits = [];
-        this.acheivement = false;
+        this.achievement = false;
         this.defaultString = '';
         this.flashTimer = 0;
         this.flashIterations = 0;
@@ -2010,7 +2053,7 @@
             var paint = true;
             var playSound = false;
 
-            if (!this.acheivement) {
+            if (!this.achievement) {
                 distance = this.getActualDistance(distance);
                 // Score has gone beyond the initial digit count.
                 if (distance > this.maxScore && this.maxScoreUnits ==
@@ -2025,7 +2068,7 @@
                     // Acheivement unlocked
                     if (distance % this.config.ACHIEVEMENT_DISTANCE == 0) {
                         // Flash score and play sound.
-                        this.acheivement = true;
+                        this.achievement = true;
                         this.flashTimer = 0;
                         playSound = true;
                     }
@@ -2050,7 +2093,7 @@
                         this.flashIterations++;
                     }
                 } else {
-                    this.acheivement = false;
+                    this.achievement = false;
                     this.flashIterations = 0;
                     this.flashTimer = 0;
                 }
@@ -2097,7 +2140,7 @@
          */
         reset: function () {
             this.update(0);
-            this.acheivement = false;
+            this.achievement = false;
         }
     };
 
@@ -2106,19 +2149,22 @@
 
     /**
      * Cloud background item.
+     * 云彩
      * Similar to an obstacle object but without collision boxes.
      * @param {HTMLCanvasElement} canvas Canvas element.
-     * @param {Object} spritePos Position of image in sprite.
-     * @param {number} containerWidth
+     * @param {Object} spritePos Position of image in sprite. 在雪碧图中的坐标
+     * @param {number} containerWidth // 容器宽度
      */
     function Cloud(canvas, spritePos, containerWidth) {
         this.canvas = canvas;
         this.canvasCtx = this.canvas.getContext('2d');
         this.spritePos = spritePos;
         this.containerWidth = containerWidth;
-        this.xPos = containerWidth;
-        this.yPos = 0;
-        this.remove = false;
+        this.xPos = containerWidth;     //云朵初始x坐标在屏幕外
+        this.yPos = 0;      //云朵初始高度
+        this.remove = false;    //是否移除
+
+        //云朵之间的间隙 100 ~ 400
         this.cloudGap = getRandomNum(Cloud.config.MIN_CLOUD_GAP,
             Cloud.config.MAX_CLOUD_GAP);
 
@@ -2131,12 +2177,12 @@
      * @enum {number}
      */
     Cloud.config = {
-        HEIGHT: 14,
-        MAX_CLOUD_GAP: 400,
-        MAX_SKY_LEVEL: 30,
-        MIN_CLOUD_GAP: 100,
-        MIN_SKY_LEVEL: 71,
-        WIDTH: 46
+        HEIGHT: 14,     //云朵sprite的高度
+        MAX_CLOUD_GAP: 400,     //两朵云之间的最大间隙
+        MAX_SKY_LEVEL: 30,      //云朵的最大高度
+        MIN_CLOUD_GAP: 100,     //两朵云之间的最小间隙
+        MIN_SKY_LEVEL: 71,      //云朵的最小高度
+        WIDTH: 46       //云朵sprite的宽度
     };
 
 
@@ -2145,6 +2191,7 @@
          * Initialise the cloud. Sets the Cloud height.
          */
         init: function () {
+            // 云朵高度 
             this.yPos = getRandomNum(Cloud.config.MAX_SKY_LEVEL,
                 Cloud.config.MIN_SKY_LEVEL);
             this.draw();
@@ -2163,12 +2210,14 @@
                 sourceHeight = sourceHeight * 2;
             }
 
+            // 剪切图像，并在画布上定位被剪切的部分
             this.canvasCtx.drawImage(Runner.imageSprite, this.spritePos.x,
                 this.spritePos.y,
                 sourceWidth, sourceHeight,
                 this.xPos, this.yPos,
                 Cloud.config.WIDTH, Cloud.config.HEIGHT);
-
+            
+            // 将绘图状态置为保存值
             this.canvasCtx.restore();
         },
 
@@ -2358,6 +2407,7 @@
 
     /**
      * Horizon Line.
+     * 地面的线绘制
      * Consists of two connecting lines. Randomly assigns a flat / bumpy horizon.
      * @param {HTMLCanvasElement} canvas
      * @param {Object} spritePos Horizon position in sprite.
@@ -2369,11 +2419,15 @@
         this.canvasCtx = canvas.getContext('2d');
         this.sourceDimensions = {};
         this.dimensions = HorizonLine.dimensions;
+
+        //在雪碧图中坐标为2和602处分别为不同的地形
         this.sourceXPos = [this.spritePos.x, this.spritePos.x +
             this.dimensions.WIDTH];
-        this.xPos = [];
-        this.yPos = 0;
-        this.bumpThreshold = 0.5;
+
+        this.xPos = [];  //地面在画布中的x坐标
+        this.yPos = 0;   //地面在画布中的y坐标
+
+        this.bumpThreshold = 0.5;  //随机地形系数
 
         this.setSourceDimensions();
         this.draw();
@@ -2394,6 +2448,7 @@
     HorizonLine.prototype = {
         /**
          * Set the source dimensions of the horizon line.
+         * 地面在画布上的位置
          */
         setSourceDimensions: function () {
 
@@ -2416,6 +2471,7 @@
 
         /**
          * Return the crop x position of a type.
+         * 随机地形
          */
         getRandomType: function () {
             return Math.random() > this.bumpThreshold ? this.dimensions.WIDTH : 0;
@@ -2523,9 +2579,9 @@
     Horizon.config = {
         BG_CLOUD_SPEED: 0.2,
         BUMPY_THRESHOLD: .3,
-        CLOUD_FREQUENCY: .5,
+        CLOUD_FREQUENCY: .5,    //云朵出现频率
         HORIZON_HEIGHT: 16,
-        MAX_CLOUDS: 6
+        MAX_CLOUDS: 6   //最大云朵数量
     };
 
 
@@ -2702,11 +2758,8 @@
                 this.dimensions.WIDTH));
         }
     };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        new Runner("#tff-wrapper");
+    })
 })();
-
-
-function onDocumentLoad() {
-    new Runner('.tff-wrapper');
-}
-
-document.addEventListener('DOMContentLoaded', onDocumentLoad);
