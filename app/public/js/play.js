@@ -113,7 +113,7 @@
         GRAVITY: 0.6,
         INITIAL_JUMP_VELOCITY: 12,
         INVERT_FADE_DURATION: 12000,
-        INVERT_DISTANCE: 700,
+        INVERT_DISTANCE: 100,   // 黑白场景转换距离
         MAX_BLINK_COUNT: 3,
         MAX_CLOUDS: 6,
         MAX_OBSTACLE_LENGTH: 3,
@@ -121,11 +121,9 @@
         MAX_SPEED: 13,
         MIN_JUMP_HEIGHT: 35,
         MOBILE_SPEED_COEFFICIENT: 1.2,
-        RESOURCE_TEMPLATE_ID: 'audio-resources',
+        // RESOURCE_TEMPLATE_ID: 'audio-resources',
         SPEED: 6,
-        SPEED_DROP_COEFFICIENT: 3,
-        // ARCADE_MODE_INITIAL_TOP_POSITION: 35,
-        // ARCADE_MODE_TOP_POSITION_PERCENT: 0.1
+        SPEED_DROP_COEFFICIENT: 3
     };
 
 
@@ -589,13 +587,15 @@
                     this.gameOver();
                 }
 
-                // var playAchievementSound = this.distanceMeter.update(deltaTime,
-                //     Math.ceil(this.distanceRan));
+                var playAchievementSound = this.distanceMeter.update(deltaTime,
+                    Math.ceil(this.distanceRan));
 
-                // if (playAchievementSound) {
-                //     // this.playSound(this.soundFx.SCORE);
-                // }
-
+                if (playAchievementSound) {
+                    // 如果分值能整除100時則返回true
+                    // this.playSound(this.soundFx.SCORE);
+                    console.log("+100");
+                }
+                
                 // Night mode.
                 if (this.invertTimer > this.config.INVERT_FADE_DURATION) {
                     this.invertTimer = 0;
@@ -610,9 +610,12 @@
                     if (actualDistance > 0) {
                         this.invertTrigger = !(actualDistance %
                             this.config.INVERT_DISTANCE);
-
+                        console.log(actualDistance, actualDistance %
+                            this.config.INVERT_DISTANCE);
                         if (this.invertTrigger && this.invertTimer === 0) {
                             this.invertTimer += deltaTime;
+                            console.log(this.invertTimer);
+                            
                             this.invert();
                         }
                     }
@@ -747,7 +750,7 @@
                 //         this.tRex.setDuck(true);
                 //     }
                 // }
-            } 
+            }
             // else if (this.crashed && e.type == Runner.events.TOUCHSTART &&
             //     e.currentTarget == this.touchController) {
             //     this.restart();
@@ -766,22 +769,22 @@
 
             if (this.isRunning() && isjumpKey) {
                 this.tRex.endJump();
-            // } else if (Runner.keycodes.DUCK[keyCode]) {
-            //     this.tRex.speedDrop = false;
-            //     this.tRex.setDuck(false);
-            // } else if (this.crashed) {
-                // Check that enough time has elapsed before allowing jump key to restart.
-                // var deltaTime = getTimeStamp() - this.time;
+            // // } else if (Runner.keycodes.DUCK[keyCode]) {
+            // //     this.tRex.speedDrop = false;
+            // //     this.tRex.setDuck(false);
+            // // } else if (this.crashed) {
+            //     // Check that enough time has elapsed before allowing jump key to restart.
+            //     // var deltaTime = getTimeStamp() - this.time;
 
-                // if (Runner.keycodes.RESTART[keyCode] || this.isLeftClickOnCanvas(e) ||
-                //     (deltaTime >= this.config.GAMEOVER_CLEAR_TIME &&
-                //         Runner.keycodes.JUMP[keyCode])) {
-                //     this.restart();
-                // }
-            } else if (this.paused && isjumpKey) {
-                // Reset the jump state
-                this.tRex.reset();
-                this.play();
+            //     // if (Runner.keycodes.RESTART[keyCode] || this.isLeftClickOnCanvas(e) ||
+            //     //     (deltaTime >= this.config.GAMEOVER_CLEAR_TIME &&
+            //     //         Runner.keycodes.JUMP[keyCode])) {
+            //     //     this.restart();
+            //     // }
+            // } else if (this.paused && isjumpKey) {
+            //     // Reset the jump state
+            //     this.tRex.reset();
+            //     this.play();
             }
         },
 
@@ -1988,6 +1991,7 @@
         ACHIEVEMENT_DISTANCE: 100,
 
         // Used for conversion from pixel distance to a scaled unit.
+        // 像素和距离的转换比例
         COEFFICIENT: 0.025,
 
         // Flash duration in milliseconds.
@@ -2075,6 +2079,7 @@
 
         /**
          * Covert pixel distance to a 'real' distance.
+         * 像素和距离转换
          * @param {number} distance Pixel distance ran.
          * @return {number} The 'real' distance ran.
          */
