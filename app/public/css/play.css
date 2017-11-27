@@ -5,8 +5,9 @@
  html, body {
     padding: 0;
     margin: 0;
-    width: 100%;
+    width: 100vw;
     height: 100%;
+    margin: auto;
   }
   
   .icon {
@@ -26,29 +27,32 @@
   
   
   /* Offline page */
+  .tff-wrapper {
+    padding-top: 300px;
+  }
   
   .runner .interstitial-wrapper {
     color: #2b2b2b;
     font-size: 1em;
     line-height: 1.55;
     margin: 0 auto;
-    max-width: 600px;
+    max-width: 750px;
     padding-top: 100px;
     width: 100%;
   }
   
   .runner .runner-container {
     height: 150px;
-    max-width: 600px;
+    max-width: 750px;
     overflow: hidden;
     position: absolute;
     top: 0;
-    width: 44px;
+    width: 100vw;
   }
   
   .runner .runner-canvas {
     height: 150px;
-    max-width: 600px;
+    max-width: 750px;
     opacity: 1;
     overflow: hidden;
     position: absolute;
@@ -66,8 +70,37 @@
     z-index: 1;
   }
   
-  #offline-resources {
+  #resources {
     display: none;
+  }
+
+  .ctrl-box {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .ctrl-btn {
+    height: 80px;
+    width: 80px;
+    line-height: 80px;
+    text-align: center;
+    border-radius: 40px;
+    border: none;
+    outline: none;
+  }
+
+  .ctrl-jump {
+    background: #e80f0f;
+    color: #FFF;
+  }
+
+  .ctrl-jump:focus, .ctrl-jump:active {
+    background: #ff0000;
+  }
+
+  .ctrl-stop {
+    background: #929292;
+    color: #FFF;
   }
   
   @media (max-width: 420px) {
