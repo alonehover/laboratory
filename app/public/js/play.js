@@ -169,7 +169,7 @@
             HORIZON: { x: 2, y: 54 },
             MOON: { x: 484, y: 2 },
             PTERODACTYL: { x: 134, y: 2 },
-            RESTART: { x: 2, y: 2 },
+            // RESTART: { x: 2, y: 2 },
             TEXT_SPRITE: { x: 655, y: 2 },
             TREX: { x: 848, y: 2 },
             STAR: { x: 645, y: 2 }
@@ -181,7 +181,7 @@
             HORIZON: { x: 2, y: 104 },
             MOON: { x: 954, y: 2 },
             PTERODACTYL: { x: 260, y: 2 },
-            RESTART: { x: 2, y: 2 },
+            // RESTART: { x: 2, y: 2 },
             TEXT_SPRITE: { x: 1294, y: 2 },
             TREX: { x: 1678, y: 2 },
             STAR: { x: 1276, y: 2 }
@@ -204,11 +204,11 @@
      * Key code mapping.
      * @enum {Object}
      */
-    Runner.keycodes = {
-        JUMP: { '38': 1, '32': 1 },  // Up, spacebar
-        DUCK: { '40': 1 },  // Down
-        RESTART: { '13': 1 }  // Enter
-    };
+    // Runner.keycodes = {
+    //     JUMP: { '38': 1, '32': 1 },  // Up, spacebar
+    //     DUCK: { '40': 1 },  // Down
+    //     RESTART: { '13': 1 }  // Enter
+    // };
 
 
     /**
@@ -445,6 +445,7 @@
 
             // Redraw the elements back onto the canvas.
             if (this.canvas) {
+                console.log("adjustDimensions");
                 this.canvas.width = this.dimensions.WIDTH;
                 this.canvas.height = this.dimensions.HEIGHT;
 
@@ -537,6 +538,7 @@
 
         /**
          * Update the game frame and schedules the next one.
+         * 更新框架和时间点
          */
         update: function () {
             this.updatePending = false;
@@ -556,11 +558,13 @@
                 var hasObstacles = this.runningTime > this.config.CLEAR_TIME;
 
                 // First jump triggers the intro.
+                // 开始游戏时的跳起动画
                 if (this.tRex.jumpCount == 1 && !this.playingIntro) {
                     this.playIntro();
                 }
 
                 // The horizon doesn't move until the intro is over.
+                // 当开始跳起动画结束后地面移动
                 if (this.playingIntro) {
                     this.horizon.update(0, this.currentSpeed, hasObstacles);
                 } else {
@@ -570,7 +574,9 @@
                 }
 
                 // Check for collisions.
+                // 检查有没有发生碰撞
                 var collision = hasObstacles &&
+                    // checkForCollision(this.horizon.obstacles[0], this.tRex, this.canvasCtx);
                     checkForCollision(this.horizon.obstacles[0], this.tRex);
 
                 if (!collision) {
@@ -583,12 +589,12 @@
                     this.gameOver();
                 }
 
-                var playAchievementSound = this.distanceMeter.update(deltaTime,
-                    Math.ceil(this.distanceRan));
+                // var playAchievementSound = this.distanceMeter.update(deltaTime,
+                //     Math.ceil(this.distanceRan));
 
-                if (playAchievementSound) {
-                    // this.playSound(this.soundFx.SCORE);
-                }
+                // if (playAchievementSound) {
+                //     // this.playSound(this.soundFx.SCORE);
+                // }
 
                 // Night mode.
                 if (this.invertTimer > this.config.INVERT_FADE_DURATION) {
@@ -652,11 +658,12 @@
             // document.addEventListener(Runner.events.KEYUP, this);
             this.touchController.addEventListener(Runner.events.TOUCHSTART, this);
             this.touchController.addEventListener(Runner.events.TOUCHEND, this);
-            this.containerEl.addEventListener(Runner.events.TOUCHSTART, this);
+            // this.containerEl.addEventListener(Runner.events.TOUCHSTART, this);
 
-            this.stopController.addEventListener(Runner.events.MOUSEDOWN, function() {
-                this.gameOver();
-            }.bind(this))   
+            // this.stopController.addEventListener(Runner.events.MOUSEUP, function() {
+            //     this.gameOver();
+            //     // this.restart();
+            // }.bind(this))   
 
             // if (IS_MOBILE) {
             //     // Mobile only touch devices.
@@ -682,14 +689,19 @@
             // document.removeEventListener(Runner.events.KEYDOWN, this);
             // document.removeEventListener(Runner.events.KEYUP, this);
 
-            if (IS_MOBILE) {
-                this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
-                this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
-                this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
-            } else {
-                document.removeEventListener(Runner.events.MOUSEDOWN, this);
-                document.removeEventListener(Runner.events.MOUSEUP, this);
-            }
+            // if (IS_MOBILE) {
+            //     this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
+            //     this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
+            //     this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
+            // } else {
+            //     document.removeEventListener(Runner.events.MOUSEDOWN, this);
+            //     document.removeEventListener(Runner.events.MOUSEUP, this);
+            // }
+
+            this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
+            this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
+            // this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
+            // this.stopController.removeEventListener(Runner.events.MOUSEUP);
         },
 
         /**
@@ -735,11 +747,11 @@
                 //         this.tRex.setDuck(true);
                 //     }
                 // }
-            } else if (this.crashed && e.type == Runner.events.TOUCHSTART &&
-                e.currentTarget == this.containerEl) {
-                this.restart();
-            }
-            console.log(this.crashed, e.type, e.currentTarget);
+            } 
+            // else if (this.crashed && e.type == Runner.events.TOUCHSTART &&
+            //     e.currentTarget == this.touchController) {
+            //     this.restart();
+            // }
         },
 
 
@@ -749,24 +761,23 @@
          */
         onKeyUp: function (e) {
             var keyCode = String(e.keyCode);
-            var isjumpKey = Runner.keycodes.JUMP[keyCode] ||
-                e.type == Runner.events.TOUCHEND ||
+            var isjumpKey =  e.type == Runner.events.TOUCHEND ||
                 e.type == Runner.events.MOUSEDOWN;
 
             if (this.isRunning() && isjumpKey) {
                 this.tRex.endJump();
-            } else if (Runner.keycodes.DUCK[keyCode]) {
-                this.tRex.speedDrop = false;
-                this.tRex.setDuck(false);
-            } else if (this.crashed) {
+            // } else if (Runner.keycodes.DUCK[keyCode]) {
+            //     this.tRex.speedDrop = false;
+            //     this.tRex.setDuck(false);
+            // } else if (this.crashed) {
                 // Check that enough time has elapsed before allowing jump key to restart.
-                var deltaTime = getTimeStamp() - this.time;
+                // var deltaTime = getTimeStamp() - this.time;
 
-                if (Runner.keycodes.RESTART[keyCode] || this.isLeftClickOnCanvas(e) ||
-                    (deltaTime >= this.config.GAMEOVER_CLEAR_TIME &&
-                        Runner.keycodes.JUMP[keyCode])) {
-                    this.restart();
-                }
+                // if (Runner.keycodes.RESTART[keyCode] || this.isLeftClickOnCanvas(e) ||
+                //     (deltaTime >= this.config.GAMEOVER_CLEAR_TIME &&
+                //         Runner.keycodes.JUMP[keyCode])) {
+                //     this.restart();
+                // }
             } else if (this.paused && isjumpKey) {
                 // Reset the jump state
                 this.tRex.reset();
@@ -780,13 +791,14 @@
          * @param {Event} e
          * @return {boolean}
          */
-        isLeftClickOnCanvas: function (e) {
-            return e.button != null && e.button < 2 &&
-                e.type == Runner.events.MOUSEUP && e.target == this.canvas;
-        },
+        // isLeftClickOnCanvas: function (e) {
+        //     return e.button != null && e.button < 2 &&
+        //         e.type == Runner.events.MOUSEUP && e.target == this.canvas;
+        // },
 
         /**
          * RequestAnimationFrame wrapper.
+         * window.requestAnimationFrame 浏览器重绘回调函数
          */
         scheduleNextUpdate: function () {
             if (!this.updatePending) {
@@ -808,7 +820,7 @@
          */
         gameOver: function () {
             // this.playSound(this.soundFx.HIT);
-            vibrate(200);
+            // vibrate(200);
 
             this.stop();
             this.crashed = true;
@@ -1002,11 +1014,11 @@
      * Vibrate on mobile devices.
      * @param {number} duration Duration of the vibration in milliseconds.
      */
-    function vibrate(duration) {
-        if (IS_MOBILE && window.navigator.vibrate) {
-            window.navigator.vibrate(duration);
-        }
-    }
+    // function vibrate(duration) {
+    //     if (IS_MOBILE && window.navigator.vibrate) {
+    //         window.navigator.vibrate(duration);
+    //     }
+    // }
 
 
     /**
@@ -1033,22 +1045,22 @@
      * Decodes the base 64 audio to ArrayBuffer used by Web Audio.
      * @param {string} base64String
      */
-    function decodeBase64ToArrayBuffer(base64String) {
-        var len = (base64String.length / 4) * 3;
-        var str = atob(base64String);
-        var arrayBuffer = new ArrayBuffer(len);
-        var bytes = new Uint8Array(arrayBuffer);
+    // function decodeBase64ToArrayBuffer(base64String) {
+    //     var len = (base64String.length / 4) * 3;
+    //     var str = atob(base64String);
+    //     var arrayBuffer = new ArrayBuffer(len);
+    //     var bytes = new Uint8Array(arrayBuffer);
 
-        for (var i = 0; i < len; i++) {
-            bytes[i] = str.charCodeAt(i);
-        }
-        return bytes.buffer;
-    }
+    //     for (var i = 0; i < len; i++) {
+    //         bytes[i] = str.charCodeAt(i);
+    //     }
+    //     return bytes.buffer;
+    // }
 
 
     /**
      * Return the current timestamp.
-     * safari 不支持 performance.now()
+     * safari不支持 performance.now()
      * @return {number}
      */
     function getTimeStamp() {
@@ -1061,6 +1073,7 @@
 
     /**
      * Game over panel.
+     * 游戏失败的信息弹窗
      * @param {!HTMLCanvasElement} canvas
      * @param {Object} textImgPos
      * @param {Object} restartImgPos
@@ -1072,7 +1085,7 @@
         this.canvasCtx = canvas.getContext('2d');
         this.canvasDimensions = dimensions;
         this.textImgPos = textImgPos;
-        this.restartImgPos = restartImgPos;
+        // this.restartImgPos = restartImgPos || {};
         this.draw();
     };
 
@@ -1146,11 +1159,11 @@
                 textTargetX, textTargetY, textTargetWidth, textTargetHeight);
 
             // Restart button.
-            this.canvasCtx.drawImage(Runner.imageSprite,
-                this.restartImgPos.x, this.restartImgPos.y,
-                restartSourceWidth, restartSourceHeight,
-                restartTargetX, restartTargetY, dimensions.RESTART_WIDTH,
-                dimensions.RESTART_HEIGHT);
+            // this.canvasCtx.drawImage(Runner.imageSprite,
+            //     this.restartImgPos.x, this.restartImgPos.y,
+            //     restartSourceWidth, restartSourceHeight,
+            //     restartTargetX, restartTargetY, dimensions.RESTART_WIDTH,
+            //     dimensions.RESTART_HEIGHT);
         }
     };
 
@@ -1159,6 +1172,7 @@
 
     /**
      * Check for a collision.
+     * 检查是否碰撞
      * @param {!Obstacle} obstacle
      * @param {!Trex} tRex T-rex object.
      * @param {HTMLCanvasContext} opt_canvasCtx Optional canvas context for drawing
@@ -1170,12 +1184,13 @@
 
         // Adjustments are made to the bounding box as there is a 1 pixel white
         // border around the t-rex and obstacles.
+        // 人物盒子模型
         var tRexBox = new CollisionBox(
             tRex.xPos + 1,
             tRex.yPos + 1,
             tRex.config.WIDTH - 2,
             tRex.config.HEIGHT - 2);
-
+        // 障碍物盒子模型
         var obstacleBox = new CollisionBox(
             obstacle.xPos + 1,
             obstacle.yPos + 1,
