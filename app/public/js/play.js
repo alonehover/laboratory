@@ -181,7 +181,7 @@
             PTERODACTYL: { x: 260, y: 2 },
             // RESTART: { x: 2, y: 2 },
             TEXT_SPRITE: { x: 1294, y: 2 },
-            TREX: { x: 1678, y: 2 },
+            TREX: { x: 1148, y: 2 },
             STAR: { x: 1276, y: 2 }
         }
     };
@@ -1607,7 +1607,7 @@
     Trex.config = {
         DROP_VELOCITY: -5,
         GRAVITY: 0.6,
-        HEIGHT: 47,
+        HEIGHT: 54,
         HEIGHT_DUCK: 25,
         INIITAL_JUMP_VELOCITY: -10,
         INTRO_DURATION: 1500,
@@ -1616,7 +1616,7 @@
         SPEED_DROP_COEFFICIENT: 3,
         SPRITE_WIDTH: 262,
         START_X_POS: 50,
-        WIDTH: 44,
+        WIDTH: 50,
         WIDTH_DUCK: 59
     };
 
@@ -1669,7 +1669,7 @@
             msPerFrame: 1000 / 3
         },
         RUNNING: {
-            frames: [88, 132],
+            frames: [0, 104, 158],
             msPerFrame: 1000 / 12
         },
         CRASHED: {
@@ -1741,6 +1741,7 @@
             if (this.status == Trex.status.WAITING) {
                 this.blink(getTimeStamp());
             } else {
+                console.log(this.currentAnimFrames[this.currentFrame]);
                 this.draw(this.currentAnimFrames[this.currentFrame], 0);
             }
 
@@ -1769,14 +1770,13 @@
             var sourceWidth = this.ducking && this.status != Trex.status.CRASHED ?
                 this.config.WIDTH_DUCK : this.config.WIDTH;
             var sourceHeight = this.config.HEIGHT;
-
             if (IS_HIDPI) {
                 sourceX *= 2;
                 sourceY *= 2;
                 sourceWidth *= 2;
                 sourceHeight *= 2;
             }
-
+            
             // Adjustments for sprite sheet position.
             sourceX += this.spritePos.x;
             sourceY += this.spritePos.y;
@@ -1792,6 +1792,8 @@
                 if (this.ducking && this.status == Trex.status.CRASHED) {
                     this.xPos++;
                 }
+                // console.log(sourceX, sourceY, sourceWidth, sourceHeight);
+            
                 // Standing / running
                 this.canvasCtx.drawImage(Runner.imageSprite, sourceX, sourceY,
                     sourceWidth, sourceHeight,
