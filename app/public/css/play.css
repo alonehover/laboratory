@@ -42,7 +42,7 @@
   }
   
   .runner .runner-container {
-    height: 150px;
+    height: 300px;
     max-width: 750px;
     overflow: hidden;
     position: absolute;
@@ -51,13 +51,14 @@
   }
   
   .runner .runner-canvas {
-    height: 150px;
+    height: 300px;
     max-width: 750px;
     opacity: 1;
     overflow: hidden;
     position: absolute;
     top: 0;
     z-index: 2;
+    background: #dff3ff;
   }
   
   .runner .controller {

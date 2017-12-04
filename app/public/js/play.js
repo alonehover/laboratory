@@ -13,7 +13,6 @@
             return Runner.instance_;
         }
         Runner.instance_ = this;
-        console.log(document.querySelector(outerContainerId));
         this.outerContainerEl = document.querySelector(outerContainerId);
         this.containerEl = null;
         this.snackbarEl = null;
@@ -105,7 +104,7 @@
     Runner.config = {
         ACCELERATION: 0.001,
         BG_CLOUD_SPEED: 0.2,
-        BOTTOM_PAD: 10,
+        BOTTOM_PAD: 21,
         CLEAR_TIME: 3000,
         CLOUD_FREQUENCY: 0.5,
         GAMEOVER_CLEAR_TIME: 750,
@@ -133,7 +132,7 @@
      */
     Runner.defaultDimensions = {
         WIDTH: DEFAULT_WIDTH,
-        HEIGHT: 150
+        HEIGHT: 300
     };
 
 
@@ -161,28 +160,28 @@
      */
     Runner.spriteDefinition = {
         LDPI: {
-            CACTUS_LARGE: { x: 332, y: 2 },
-            CACTUS_SMALL: { x: 228, y: 2 },
+            MARK_LARGE_M: { x: 332, y: 2 },
+            MARK_S_MONEY: { x: 228, y: 2 },
             CLOUD: { x: 86, y: 2 },
-            HORIZON: { x: 2, y: 54 },
+            HORIZON: { x: 0, y: 60 },
             MOON: { x: 484, y: 2 },
-            PTERODACTYL: { x: 134, y: 2 },
+            AIRPLANE: { x: 134, y: 2 },
             // RESTART: { x: 2, y: 2 },
             TEXT_SPRITE: { x: 655, y: 2 },
-            TREX: { x: 848, y: 2 },
+            TREX: { x: 716, y: 5 },
             STAR: { x: 645, y: 2 }
         },
         HDPI: {
-            CACTUS_LARGE: { x: 652, y: 2 },
-            CACTUS_SMALL: { x: 446, y: 2 },
-            CLOUD: { x: 166, y: 2 },
-            HORIZON: { x: 2, y: 104 },
-            MOON: { x: 954, y: 2 },
-            PTERODACTYL: { x: 260, y: 2 },
+            MARK_LARGE_M: { x: 684, y: 10 }, // 大障碍物
+            MARK_S_MONEY: { x: 532, y: 10 }, // 小障碍物
+            CLOUD: { x: 8, y: 10 },    // 云
+            HORIZON: { x: 0, y: 120 },  // 地面
+            MOON: { x: 954, y: 10 },     
+            AIRPLANE: { x: 118, y: 10 },  // 飞机
             // RESTART: { x: 2, y: 2 },
-            TEXT_SPRITE: { x: 1294, y: 2 },
-            TREX: { x: 1148, y: 2 },
-            STAR: { x: 1276, y: 2 }
+            TEXT_SPRITE: { x: 930, y: 10 },
+            TREX: { x: 1432, y: 10 }, // 人物的开始坐标
+            STAR: { x: 1276, y: 10 }
         }
     };
 
@@ -354,7 +353,7 @@
             // document.querySelector('.' + Runner.classes.ICON).style.visibility =
             //     'hidden';
 
-            this.adjustDimensions();    // 调整画布
+            this.adjustDimensions();    // 重置时间
             this.setSpeed();    // 设置速度
 
             this.containerEl = document.createElement('div');
@@ -366,7 +365,7 @@
                 this.dimensions.HEIGHT, Runner.classes.PLAYER);
 
             this.canvasCtx = this.canvas.getContext('2d');
-            this.canvasCtx.fillStyle = '#f7f7f7';
+            this.canvasCtx.fillStyle="#dff3ff";
             this.canvasCtx.fill();
             Runner.updateCanvasScaling(this.canvas);
 
@@ -574,8 +573,8 @@
                 // Check for collisions.
                 // 检查有没有发生碰撞
                 var collision = hasObstacles &&
-                    // checkForCollision(this.horizon.obstacles[0], this.tRex, this.canvasCtx);
-                    checkForCollision(this.horizon.obstacles[0], this.tRex);
+                    checkForCollision(this.horizon.obstacles[0], this.tRex, this.canvasCtx);
+                    // checkForCollision(this.horizon.obstacles[0], this.tRex);
 
                 if (!collision) {
                     this.distanceRan += this.currentSpeed * deltaTime / this.msPerFrame;
@@ -609,8 +608,6 @@
 
                     if (actualDistance > 0) {
                         this.invertTrigger = !(actualDistance %
-                            this.config.INVERT_DISTANCE);
-                        console.log(actualDistance, actualDistance %
                             this.config.INVERT_DISTANCE);
                         if (this.invertTrigger && this.invertTimer === 0) {
                             this.invertTimer += deltaTime;
@@ -663,10 +660,16 @@
             this.touchController.addEventListener(Runner.events.TOUCHEND, this);
             // this.containerEl.addEventListener(Runner.events.TOUCHSTART, this);
 
-            // this.stopController.addEventListener(Runner.events.MOUSEUP, function() {
-            //     this.gameOver();
-            //     // this.restart();
-            // }.bind(this))   
+            this.stopController.addEventListener(Runner.events.MOUSEUP, function() {
+                console.log();
+                
+                if(this.playing) {
+                    this.stop();
+                }else {
+                    this.play();
+                }
+                // this.restart();
+            }.bind(this))   
 
             // if (IS_MOBILE) {
             //     // Mobile only touch devices.
@@ -704,7 +707,7 @@
             this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
             this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
             // this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
-            // this.stopController.removeEventListener(Runner.events.MOUSEUP);
+            this.stopController.removeEventListener(Runner.events.MOUSEUP);
         },
 
         /**
@@ -1197,7 +1200,7 @@
         var obstacleBox = new CollisionBox(
             obstacle.xPos + 1,
             obstacle.yPos + 1,
-            obstacle.typeConfig.width * obstacle.size - 2,
+            obstacle.typeConfig.width - 2,
             obstacle.typeConfig.height - 2);
 
         // Debug outer box
@@ -1259,7 +1262,7 @@
         canvasCtx.strokeStyle = '#f00';
         canvasCtx.strokeRect(tRexBox.x, tRexBox.y, tRexBox.width, tRexBox.height);
 
-        canvasCtx.strokeStyle = '#0f0';
+        canvasCtx.strokeStyle = '#00f';
         canvasCtx.strokeRect(obstacleBox.x, obstacleBox.y,
             obstacleBox.width, obstacleBox.height);
         canvasCtx.restore();
@@ -1371,7 +1374,7 @@
                     this.size = 1;
                 }
 
-                this.width = this.typeConfig.width * this.size;
+                this.width = this.typeConfig.width;
 
                 // Check if obstacle can be positioned at various heights.
                 if (Array.isArray(this.typeConfig.yPos)) {
@@ -1392,11 +1395,11 @@
                 //   | | 1 | |   | |  2  | |   | |   3   | |
                 //   |_|___|_|   |_|_____|_|   |_|_______|_|
                 //
-                if (this.size > 1) {
-                    this.collisionBoxes[1].width = this.width - this.collisionBoxes[0].width -
-                        this.collisionBoxes[2].width;
-                    this.collisionBoxes[2].x = this.width - this.collisionBoxes[2].width;
-                }
+                // if (this.size > 1) {
+                //     this.collisionBoxes[1].width = this.width - this.collisionBoxes[0].width -
+                //         this.collisionBoxes[2].width;
+                //     this.collisionBoxes[2].x = this.width - this.collisionBoxes[2].width;
+                // }
 
                 // For obstacles that go at a different speed from the horizon.
                 if (this.typeConfig.speedOffset) {
@@ -1420,19 +1423,23 @@
                 }
 
                 // X position in sprite.
-                var sourceX = (sourceWidth * this.size) * (0.5 * (this.size - 1)) +
-                    this.spritePos.x;
+                // var sourceX = (sourceWidth * this.size) * (0.5 * (this.size - 1)) +
+                //     this.spritePos.x;
+                var sourceX  = this.spritePos.x;
+                    // console.log(sourceX);
 
                 // Animation frames.
                 if (this.currentFrame > 0) {
                     sourceX += sourceWidth * this.currentFrame;
                 }
 
+                console.log(sourceX, this.currentFrame);
+
                 this.canvasCtx.drawImage(Runner.imageSprite,
                     sourceX, this.spritePos.y,
-                    sourceWidth * this.size, sourceHeight,
+                    sourceWidth, sourceHeight,
                     this.xPos, this.yPos,
-                    this.typeConfig.width * this.size, this.typeConfig.height);
+                    this.typeConfig.width, this.typeConfig.height);
             },
 
             /**
@@ -1512,51 +1519,49 @@
      */
     Obstacle.types = [
         {
-            type: 'CACTUS_SMALL',
-            width: 17,
-            height: 35,
-            yPos: 105,
+            type: 'MARK_S_MONEY',
+            width: 28,
+            height: 40,
+            yPos: 236,
             multipleSpeed: 4,
-            minGap: 120,
+            minGap: 120,  // 最小间距
             minSpeed: 0,
             collisionBoxes: [
-                new CollisionBox(0, 7, 5, 27),
-                new CollisionBox(4, 0, 6, 34),
-                new CollisionBox(10, 4, 7, 14)
+                new CollisionBox(2, 4, 5, 27),
+                new CollisionBox(18, 4, 5, 27)
             ]
         },
         {
-            type: 'CACTUS_LARGE',
-            width: 25,
-            height: 50,
-            yPos: 90,
+            type: 'MARK_LARGE_M',
+            width: 50,
+            height: 52,
+            yPos: 226,
             multipleSpeed: 7,
             minGap: 120,
-            minSpeed: 0,
+            minSpeed: 3,
             collisionBoxes: [
-                new CollisionBox(0, 12, 7, 38),
-                new CollisionBox(8, 0, 7, 49),
-                new CollisionBox(13, 10, 10, 38)
+                new CollisionBox(4, 9, 40, 6),
+                new CollisionBox(22, 0, 6, 8)
             ]
         },
         {
-            type: 'PTERODACTYL',
-            width: 46,
-            height: 40,
-            yPos: [100, 75, 50], // Variable height.
-            yPosMobile: [100, 50], // Variable height mobile.
+            type: 'AIRPLANE',
+            width: 50,
+            height: 30,
+            yPos: [220, 200, 190], // Variable height.
+            yPosMobile: [80, 50], // Variable height mobile.
             multipleSpeed: 999,
-            minSpeed: 8.5,
+            minSpeed: 8,
             minGap: 150,
             collisionBoxes: [
-                new CollisionBox(15, 15, 16, 5),
-                new CollisionBox(18, 21, 24, 6),
-                new CollisionBox(2, 14, 4, 3),
-                new CollisionBox(6, 10, 4, 7),
-                new CollisionBox(10, 8, 6, 9)
+                new CollisionBox(15, 20, 5, 5),
+                new CollisionBox(36, 0, 6, 10),
+                new CollisionBox(2, 16, 4, 3),
+                new CollisionBox(4, 12, 4, 3),                
+                new CollisionBox(42, 15, 6, 2)
             ],
-            numFrames: 2,
-            frameRate: 1000 / 6,
+            // numFrames: 2,
+            // frameRate: 1000 / 6,
             speedOffset: .8
         }
     ];
@@ -1607,16 +1612,16 @@
     Trex.config = {
         DROP_VELOCITY: -5,
         GRAVITY: 0.6,
-        HEIGHT: 54,
+        HEIGHT: 58,
         HEIGHT_DUCK: 25,
         INIITAL_JUMP_VELOCITY: -10,
         INTRO_DURATION: 1500,
-        MAX_JUMP_HEIGHT: 30,
-        MIN_JUMP_HEIGHT: 30,
+        MAX_JUMP_HEIGHT: 80,
+        MIN_JUMP_HEIGHT: 58,
         SPEED_DROP_COEFFICIENT: 3,
         SPRITE_WIDTH: 262,
-        START_X_POS: 50,
-        WIDTH: 50,
+        START_X_POS: 80,
+        WIDTH: 60,
         WIDTH_DUCK: 59
     };
 
@@ -1630,12 +1635,9 @@
             new CollisionBox(1, 18, 55, 25)
         ],
         RUNNING: [
-            new CollisionBox(22, 0, 17, 16),
-            new CollisionBox(1, 18, 30, 9),
-            new CollisionBox(10, 35, 14, 8),
-            new CollisionBox(1, 24, 29, 5),
-            new CollisionBox(5, 30, 21, 4),
-            new CollisionBox(9, 34, 15, 4)
+            new CollisionBox(12, 4, 26, 16),
+            new CollisionBox(11, 30, 8, 16),
+            new CollisionBox(38, 28, 7, 24)
         ]
     };
 
@@ -1665,15 +1667,15 @@
      */
     Trex.animFrames = {
         WAITING: {
-            frames: [44, 0],
+            frames: [0, 0],
             msPerFrame: 1000 / 3
         },
         RUNNING: {
-            frames: [0, 104, 158],
+            frames: [0, 54, 116, 180],
             msPerFrame: 1000 / 12
         },
         CRASHED: {
-            frames: [220],
+            frames: [0],
             msPerFrame: 1000 / 60
         },
         JUMPING: {
@@ -1741,7 +1743,6 @@
             if (this.status == Trex.status.WAITING) {
                 this.blink(getTimeStamp());
             } else {
-                console.log(this.currentAnimFrames[this.currentFrame]);
                 this.draw(this.currentAnimFrames[this.currentFrame], 0);
             }
 
@@ -2466,10 +2467,9 @@
         this.canvasCtx = canvas.getContext('2d');
         this.sourceDimensions = {};
         this.dimensions = HorizonLine.dimensions;
-
         //在雪碧图中坐标为2和602处分别为不同的地形
-        this.sourceXPos = [this.spritePos.x, this.spritePos.x +
-            this.dimensions.WIDTH];
+        this.sourceXPos = [this.spritePos.x +
+            this.dimensions.WIDTH, this.spritePos.x];
 
         this.xPos = [];  //地面在画布中的x坐标
         this.yPos = 0;   //地面在画布中的y坐标
@@ -2486,9 +2486,9 @@
      * @enum {number}
      */
     HorizonLine.dimensions = {
-        WIDTH: 600,
-        HEIGHT: 12,
-        YPOS: 127
+        WIDTH: 460,
+        HEIGHT: 100,
+        YPOS: 268
     };
 
 
@@ -2696,6 +2696,7 @@
 
         /**
          * Update the obstacle positions.
+         * 刷新障碍物
          * @param {number} deltaTime
          * @param {number} currentSpeed
          */
@@ -2736,16 +2737,20 @@
 
         /**
          * Add a new obstacle.
+         * 添加新的障碍物
          * @param {number} currentSpeed
          */
         addNewObstacle: function (currentSpeed) {
             var obstacleTypeIndex = getRandomNum(0, Obstacle.types.length - 1);
             var obstacleType = Obstacle.types[obstacleTypeIndex];
-
+            console.log(obstacleType);
             // Check for multiples of the same type of obstacle.
             // Also check obstacle is available at current speed.
+            console.log(currentSpeed, obstacleType.minSpeed);
+            // console.log(this.duplicateObstacleCheck(obstacleType.type), currentSpeed < obstacleType.minSpeed);
             if (this.duplicateObstacleCheck(obstacleType.type) ||
                 currentSpeed < obstacleType.minSpeed) {
+                    console.log("object");
                 this.addNewObstacle(currentSpeed);
             } else {
                 var obstacleSpritePos = this.spritePos[obstacleType.type];
