@@ -2549,9 +2549,7 @@
         this.sourceDimensions = {};
         this.dimensions = HorizonLine.dimensions;
         //在雪碧图中坐标为2和602处分别为不同的地形
-        // this.sourceXPos = [this.spritePos.x +
-        //     this.dimensions.WIDTH, this.spritePos.x];
-        this.sourceXPos = this.spritePos.x;
+        this.sourceXPos = [this.spritePos.x, this.spritePos.x + this.dimensions.WIDTH];
 
         this.xPos = [];  //地面在画布中的x坐标
         this.yPos = 0;   //地面在画布中的y坐标
@@ -2594,7 +2592,7 @@
                 this.dimensions[dimension] = HorizonLine.dimensions[dimension];
             }
 
-            this.xPos = 0;
+            this.xPos = [0, HorizonLine.dimensions.WIDTH];
             this.yPos = HorizonLine.dimensions.YPOS;
         },
 
@@ -2602,25 +2600,25 @@
          * Return the crop x position of a type.
          * 随机地形
          */
-        // getRandomType: function () {
-        //     return Math.random() > this.bumpThreshold ? this.dimensions.WIDTH : 0;
-        // },
+        getRandomType: function () {
+            return Math.random() > this.bumpThreshold ? this.dimensions.WIDTH : 0;
+        },
 
         /**
          * Draw the horizon line.
          */
         draw: function () {           
-            this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos,
+            this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[0],
                 this.spritePos.y,
                 this.sourceDimensions.WIDTH, this.sourceDimensions.HEIGHT,
-                this.xPos, this.yPos,
+                this.xPos[0], this.yPos,
                 this.dimensions.WIDTH, this.dimensions.HEIGHT);
 
-            // this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[1],
-            //     this.spritePos.y,
-            //     this.sourceDimensions.WIDTH, this.sourceDimensions.HEIGHT,
-            //     this.xPos[1], this.yPos,
-            //     this.dimensions.WIDTH, this.dimensions.HEIGHT);
+            this.canvasCtx.drawImage(Runner.imageSprite, this.sourceXPos[1],
+                this.spritePos.y,
+                this.sourceDimensions.WIDTH, this.sourceDimensions.HEIGHT,
+                this.xPos[1], this.yPos,
+                this.dimensions.WIDTH, this.dimensions.HEIGHT);
         },
 
         /**
@@ -2628,19 +2626,19 @@
          * @param {number} pos Line position.
          * @param {number} increment
          */
-        // updateXPos: function (pos, increment) {
-        //     var line1 = pos;
-        //     var line2 = pos == 0 ? 1 : 0;
+        updateXPos: function (pos, increment) {
+            var line1 = pos;
+            var line2 = pos == 0 ? 1 : 0;
 
-        //     this.xPos[line1] -= increment;
-        //     this.xPos[line2] = this.xPos[line1] + this.dimensions.WIDTH;
+            this.xPos[line1] -= increment;
+            this.xPos[line2] = this.xPos[line1] + this.dimensions.WIDTH;
 
-        //     if (this.xPos[line1] <= -this.dimensions.WIDTH) {
-        //         this.xPos[line1] += this.dimensions.WIDTH * 2;
-        //         this.xPos[line2] = this.xPos[line1] - this.dimensions.WIDTH;
-        //         this.sourceXPos[line1] = this.getRandomType() + this.spritePos.x;
-        //     }
-        // },
+            if (this.xPos[line1] <= -this.dimensions.WIDTH) {
+                this.xPos[line1] += this.dimensions.WIDTH * 2;
+                this.xPos[line2] = this.xPos[line1] - this.dimensions.WIDTH;
+                this.sourceXPos[line1] = this.getRandomType() + this.spritePos.x;
+            }
+        },
 
         /**
          * Update the horizon line.
@@ -2650,11 +2648,11 @@
         update: function (deltaTime, speed) {
             var increment = Math.floor(speed * (FPS / 1000) * deltaTime);
 
-            // if (this.xPos[0] <= 0) {
-            //     this.updateXPos(0, increment);
-            // } else {
-            //     this.updateXPos(1, increment);
-            // }
+            if (this.xPos[0] <= 0) {
+                this.updateXPos(0, increment);
+            } else {
+                this.updateXPos(1, increment);
+            }
             this.draw();
         },
 
