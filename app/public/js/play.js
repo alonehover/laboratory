@@ -102,7 +102,7 @@
      * @enum {number}
      */
     Runner.config = {
-        ACCELERATION: 0.001,
+        ACCELERATION: 0.0005,
         BG_CLOUD_SPEED: 0.2,
         BOTTOM_PAD: 21,
         CLEAR_TIME: 3000,
@@ -111,8 +111,8 @@
         GAP_COEFFICIENT: 0.6,
         GRAVITY: 0.6,
         INITIAL_JUMP_VELOCITY: 12,
-        INVERT_FADE_DURATION: 12000,
-        INVERT_DISTANCE: 100,   // 黑白场景转换距离
+        // INVERT_FADE_DURATION: 500,
+        // INVERT_DISTANCE: 100,   // 黑白场景转换距离
         MAX_BLINK_COUNT: 3,
         MAX_CLOUDS: 6,
         MAX_OBSTACLE_LENGTH: 3,
@@ -161,7 +161,7 @@
     Runner.spriteDefinition = {
         LDPI: {
             MARK_LARGE_M: { x: 332, y: 2 },
-            MARK_S_MONEY: { x: 228, y: 2 },
+            MARK_S_TREE: { x: 228, y: 2 },
             CLOUD: { x: 86, y: 2 },
             HORIZON: { x: 0, y: 60 },
             MOON: { x: 484, y: 2 },
@@ -172,15 +172,20 @@
             STAR: { x: 645, y: 2 }
         },
         HDPI: {
-            MARK_LARGE_M: { x: 684, y: 10 }, // 大障碍物
-            MARK_S_MONEY: { x: 532, y: 10 }, // 小障碍物
+            MARK_LARGE_STONE: { x: 532, y: 10 }, // 大障碍物
+            MARK_LARGE_M: { x: 576, y: 10 }, // 大障碍物
+            MARK_LARGE_BUILDING: { x: 708, y: 10 }, // 大障碍物
+            MARK_S_TREE: { x: 447, y: 10 }, // 小障碍物
+            MARK_S_TREE2: { x: 447, y: 10 }, // 小障碍物
+            MARK_S_BRIDGE: { x: 230, y: 10 }, // 小障碍物
+            MARK_S_PAVILION: { x: 370, y: 10 }, // 小障碍物
             CLOUD: { x: 8, y: 10 },    // 云
-            HORIZON: { x: 0, y: 120 },  // 地面
+            HORIZON: { x: 0, y: 138 },  // 地面
             MOON: { x: 954, y: 10 },     
             AIRPLANE: { x: 118, y: 10 },  // 飞机
             // RESTART: { x: 2, y: 2 },
-            TEXT_SPRITE: { x: 930, y: 10 },
-            TREX: { x: 1432, y: 10 }, // 人物的开始坐标
+            TEXT_SPRITE: { x: 862, y: 10 },
+            TREX: { x: 1362, y: 10 }, // 人物的开始坐标
             STAR: { x: 1276, y: 10 }
         }
     };
@@ -442,7 +447,6 @@
 
             // Redraw the elements back onto the canvas.
             if (this.canvas) {
-                console.log("adjustDimensions");
                 this.canvas.width = this.dimensions.WIDTH;
                 this.canvas.height = this.dimensions.HEIGHT;
 
@@ -481,14 +485,15 @@
                 this.tRex.playingIntro = true;
 
                 // CSS animation definition.
-                var keyframes = '@-webkit-keyframes intro { ' +
-                    'from { width:' + Trex.config.WIDTH + 'px }' +
-                    'to { width: ' + this.dimensions.WIDTH + 'px }' +
-                    '}';
-                document.styleSheets[0].insertRule(keyframes, 0);
+                // var keyframes = '@-webkit-keyframes intro { ' +
+                //     'from { width:' + Trex.config.WIDTH + 'px }' +
+                //     'to { width: ' + this.dimensions.WIDTH + 'px }' +
+                //     '}';
+                // document.styleSheets[0].insertRule(keyframes, 0);
 
-                this.containerEl.addEventListener(Runner.events.ANIM_END,
-                    this.startGame.bind(this));
+                // this.containerEl.addEventListener(Runner.events.ANIM_END,
+                //     this.startGame.bind(this));
+                this.startGame();
 
                 this.containerEl.style.webkitAnimation = 'intro .4s ease-out 1 both';
                 this.containerEl.style.width = this.dimensions.WIDTH + 'px';
@@ -573,8 +578,8 @@
                 // Check for collisions.
                 // 检查有没有发生碰撞
                 var collision = hasObstacles &&
-                    checkForCollision(this.horizon.obstacles[0], this.tRex, this.canvasCtx);
-                    // checkForCollision(this.horizon.obstacles[0], this.tRex);
+                    // checkForCollision(this.horizon.obstacles[0], this.tRex, this.canvasCtx);
+                    checkForCollision(this.horizon.obstacles[0], this.tRex);
 
                 if (!collision) {
                     this.distanceRan += this.currentSpeed * deltaTime / this.msPerFrame;
@@ -589,34 +594,34 @@
                 var playAchievementSound = this.distanceMeter.update(deltaTime,
                     Math.ceil(this.distanceRan));
 
-                if (playAchievementSound) {
-                    // 如果分值能整除100時則返回true
-                    // this.playSound(this.soundFx.SCORE);
-                    console.log("+100");
-                }
+                // if (playAchievementSound) {
+                //     // 如果分值能整除100時則返回true
+                //     // this.playSound(this.soundFx.SCORE);
+                //     console.log("+100");
+                // }
                 
                 // Night mode.
-                if (this.invertTimer > this.config.INVERT_FADE_DURATION) {
-                    this.invertTimer = 0;
-                    this.invertTrigger = false;
-                    this.invert();
-                } else if (this.invertTimer) {
-                    this.invertTimer += deltaTime;
-                } else {
-                    var actualDistance =
-                        this.distanceMeter.getActualDistance(Math.ceil(this.distanceRan));
+                // if (this.invertTimer > this.config.INVERT_FADE_DURATION) {
+                //     this.invertTimer = 0;
+                //     this.invertTrigger = false;
+                //     this.invert();
+                // } else if (this.invertTimer) {
+                //     this.invertTimer += deltaTime;
+                // } else {
+                //     var actualDistance =
+                //         this.distanceMeter.getActualDistance(Math.ceil(this.distanceRan));
 
-                    if (actualDistance > 0) {
-                        this.invertTrigger = !(actualDistance %
-                            this.config.INVERT_DISTANCE);
-                        if (this.invertTrigger && this.invertTimer === 0) {
-                            this.invertTimer += deltaTime;
-                            console.log(this.invertTimer);
+                //     if (actualDistance > 0) {
+                //         this.invertTrigger = !(actualDistance %
+                //             this.config.INVERT_DISTANCE);
+                //         if (this.invertTrigger && this.invertTimer === 0) {
+                //             this.invertTimer += deltaTime;
+                //             console.log(this.invertTimer);
                             
-                            this.invert();
-                        }
-                    }
-                }
+                //             this.invert();
+                //         }
+                //     }
+                // }
             }
 
             if (this.playing || (!this.activated &&
@@ -632,7 +637,6 @@
          */
         handleEvent: function (e) {
             return (function (evtType, events) {
-                console.log(evtType);
                 switch (evtType) {
                     // case events.KEYDOWN:
                     case events.TOUCHSTART:
@@ -660,16 +664,15 @@
             this.touchController.addEventListener(Runner.events.TOUCHEND, this);
             // this.containerEl.addEventListener(Runner.events.TOUCHSTART, this);
 
-            this.stopController.addEventListener(Runner.events.MOUSEUP, function() {
-                console.log();
-                
-                if(this.playing) {
-                    this.stop();
-                }else {
-                    this.play();
-                }
-                // this.restart();
-            }.bind(this))   
+            // this.stopController.addEventListener(Runner.events.MOUSEUP, function() {
+               
+            //     if(this.playing) {
+            //         this.stop();
+            //     }else {
+            //         this.play();
+            //     }
+            //     // this.restart();
+            // }.bind(this))   
 
             // if (IS_MOBILE) {
             //     // Mobile only touch devices.
@@ -707,7 +710,7 @@
             this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
             this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
             // this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
-            this.stopController.removeEventListener(Runner.events.MOUSEUP);
+            // this.stopController.removeEventListener(Runner.events.MOUSEUP);
         },
 
         /**
@@ -754,10 +757,10 @@
                 //     }
                 // }
             }
-            // else if (this.crashed && e.type == Runner.events.TOUCHSTART &&
-            //     e.currentTarget == this.touchController) {
-            //     this.restart();
-            // }
+            else if (this.crashed && e.type == Runner.events.TOUCHSTART &&
+                e.currentTarget == this.touchController) {
+                this.restart();
+            }
         },
 
 
@@ -1433,8 +1436,6 @@
                     sourceX += sourceWidth * this.currentFrame;
                 }
 
-                console.log(sourceX, this.currentFrame);
-
                 this.canvasCtx.drawImage(Runner.imageSprite,
                     sourceX, this.spritePos.y,
                     sourceWidth, sourceHeight,
@@ -1511,6 +1512,7 @@
 
 
     /**
+     * 障碍物模型
      * Obstacle definitions.
      * minGap: minimum pixel space betweeen obstacles.
      * multipleSpeed: Speed at which multiples are allowed.
@@ -1519,29 +1521,99 @@
      */
     Obstacle.types = [
         {
-            type: 'MARK_S_MONEY',
-            width: 28,
-            height: 40,
-            yPos: 236,
+            type: 'MARK_S_TREE',
+            width: 21,
+            height: 34,
+            yPos: 242,
             multipleSpeed: 4,
             minGap: 120,  // 最小间距
             minSpeed: 0,
             collisionBoxes: [
-                new CollisionBox(2, 4, 5, 27),
-                new CollisionBox(18, 4, 5, 27)
+                new CollisionBox(2, 12, 15, 16),
+                new CollisionBox(7, 2, 4, 4)
+            ]
+        },
+        {
+            type: 'MARK_S_TREE2',
+            width: 42,
+            height: 34,
+            yPos: 242,
+            multipleSpeed: 4,
+            minGap: 120,  // 最小间距
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(2, 12, 36, 16),
+                new CollisionBox(7, 2, 4, 4),
+                new CollisionBox(28, 2, 4, 4)
+            ]
+        },
+        {
+            type: 'MARK_S_BRIDGE',
+            width: 68,
+            height: 34,
+            yPos: 242,
+            multipleSpeed: 4,
+            minGap: 130,  // 最小间距
+            minSpeed: 0,
+            collisionBoxes: [
+                new CollisionBox(2, 22, 62, 4),
+                new CollisionBox(15, 2, 4, 6),
+                new CollisionBox(48, 2, 4, 6)
+            ]
+        },
+        {
+            type: 'MARK_S_PAVILION',
+            width: 36,
+            height: 34,
+            yPos: 242,
+            multipleSpeed: 4,
+            minGap: 160,  // 最小间距
+            minSpeed: 6,
+            collisionBoxes: [
+                new CollisionBox(2, 22, 28, 4),
+                new CollisionBox(15, 2, 4, 3),
+                new CollisionBox(2, 6, 28, 2)
+            ]
+        },
+        {
+            type: 'MARK_LARGE_STONE',
+            width: 18,
+            height: 46,
+            yPos: 228,
+            multipleSpeed: 7,
+            minGap: 140,
+            minSpeed: 3,
+            collisionBoxes: [
+                new CollisionBox(4, 2, 2, 6),
+                new CollisionBox(2, 18, 4, 16),
+            ]
+        },
+        {
+            type: 'MARK_LARGE_BUILDING',
+            width: 75,
+            height: 46,
+            yPos: 228,
+            multipleSpeed: 7,
+            minGap: 180,
+            minSpeed: 7,
+            collisionBoxes: [
+                new CollisionBox(25, 2, 8, 12),
+                new CollisionBox(2, 23, 6, 20),
+                new CollisionBox(45, 6, 8, 12),
+                new CollisionBox(65, 27, 6, 16)
             ]
         },
         {
             type: 'MARK_LARGE_M',
-            width: 50,
-            height: 52,
-            yPos: 226,
+            width: 60,
+            height: 46,
+            yPos: 228,
             multipleSpeed: 7,
-            minGap: 120,
+            minGap: 140,
             minSpeed: 3,
             collisionBoxes: [
-                new CollisionBox(4, 9, 40, 6),
-                new CollisionBox(22, 0, 6, 8)
+                new CollisionBox(10, 9, 42, 6),
+                new CollisionBox(28, 0, 6, 8)
             ]
         },
         {
@@ -1612,8 +1684,8 @@
     Trex.config = {
         DROP_VELOCITY: -5,
         GRAVITY: 0.6,
-        HEIGHT: 58,
-        HEIGHT_DUCK: 25,
+        HEIGHT: 60,
+        // HEIGHT_DUCK: 25,
         INIITAL_JUMP_VELOCITY: -10,
         INTRO_DURATION: 1500,
         MAX_JUMP_HEIGHT: 80,
@@ -1622,7 +1694,7 @@
         SPRITE_WIDTH: 262,
         START_X_POS: 80,
         WIDTH: 60,
-        WIDTH_DUCK: 59
+        // WIDTH_DUCK: 59
     };
 
 
@@ -1631,13 +1703,13 @@
      * @type {Array<CollisionBox>}
      */
     Trex.collisionBoxes = {
-        DUCKING: [
-            new CollisionBox(1, 18, 55, 25)
-        ],
+        // DUCKING: [
+        //     new CollisionBox(1, 18, 55, 25)
+        // ],
         RUNNING: [
-            new CollisionBox(12, 4, 26, 16),
-            new CollisionBox(11, 30, 8, 16),
-            new CollisionBox(38, 28, 7, 24)
+            new CollisionBox(12, 4, 24, 10),
+            new CollisionBox(14, 30, 8, 16),
+            new CollisionBox(39, 28, 7, 26)
         ]
     };
 
@@ -1648,7 +1720,7 @@
      */
     Trex.status = {
         CRASHED: 'CRASHED',
-        DUCKING: 'DUCKING',
+        // DUCKING: 'DUCKING',
         JUMPING: 'JUMPING',
         RUNNING: 'RUNNING',
         WAITING: 'WAITING'
@@ -1682,10 +1754,10 @@
             frames: [0],
             msPerFrame: 1000 / 60
         },
-        DUCKING: {
-            frames: [262, 321],
-            msPerFrame: 1000 / 8
-        }
+        // DUCKING: {
+        //     frames: [262, 321],
+        //     msPerFrame: 1000 / 8
+        // }
     };
 
 
@@ -1754,10 +1826,10 @@
             }
 
             // Speed drop becomes duck if the down key is still being pressed.
-            if (this.speedDrop && this.yPos == this.groundYPos) {
-                this.speedDrop = false;
-                this.setDuck(true);
-            }
+            // if (this.speedDrop && this.yPos == this.groundYPos) {
+            //     this.speedDrop = false;
+            //     this.setDuck(true);
+            // }
         },
 
         /**
@@ -1768,8 +1840,9 @@
         draw: function (x, y) {
             var sourceX = x;
             var sourceY = y;
-            var sourceWidth = this.ducking && this.status != Trex.status.CRASHED ?
-                this.config.WIDTH_DUCK : this.config.WIDTH;
+            // var sourceWidth = this.ducking && this.status != Trex.status.CRASHED ?
+            //     this.config.WIDTH_DUCK : this.config.WIDTH;
+            var sourceWidth = this.config.WIDTH;
             var sourceHeight = this.config.HEIGHT;
             if (IS_HIDPI) {
                 sourceX *= 2;
@@ -1783,12 +1856,12 @@
             sourceY += this.spritePos.y;
 
             // Ducking.
-            if (this.ducking && this.status != Trex.status.CRASHED) {
-                this.canvasCtx.drawImage(Runner.imageSprite, sourceX, sourceY,
-                    sourceWidth, sourceHeight,
-                    this.xPos, this.yPos,
-                    this.config.WIDTH_DUCK, this.config.HEIGHT);
-            } else {
+            // if (this.ducking && this.status != Trex.status.CRASHED) {
+            //     this.canvasCtx.drawImage(Runner.imageSprite, sourceX, sourceY,
+            //         sourceWidth, sourceHeight,
+            //         this.xPos, this.yPos,
+            //         this.config.WIDTH_DUCK, this.config.HEIGHT);
+            // } else {
                 // Crashed whilst ducking. Trex is standing up so needs adjustment.
                 if (this.ducking && this.status == Trex.status.CRASHED) {
                     this.xPos++;
@@ -1800,7 +1873,7 @@
                     sourceWidth, sourceHeight,
                     this.xPos, this.yPos,
                     this.config.WIDTH, this.config.HEIGHT);
-            }
+            // }
         },
 
         /**
@@ -1903,15 +1976,15 @@
         /**
          * @param {boolean} isDucking.
          */
-        setDuck: function (isDucking) {
-            if (isDucking && this.status != Trex.status.DUCKING) {
-                this.update(0, Trex.status.DUCKING);
-                this.ducking = true;
-            } else if (this.status == Trex.status.DUCKING) {
-                this.update(0, Trex.status.RUNNING);
-                this.ducking = false;
-            }
-        },
+        // setDuck: function (isDucking) {
+        //     if (isDucking && this.status != Trex.status.DUCKING) {
+        //         this.update(0, Trex.status.DUCKING);
+        //         this.ducking = true;
+        //     } else if (this.status == Trex.status.DUCKING) {
+        //         this.update(0, Trex.status.RUNNING);
+        //         this.ducking = false;
+        //     }
+        // },
 
         /**
          * Reset the t-rex to running at start of game.
@@ -1991,11 +2064,11 @@
         MAX_DISTANCE_UNITS: 5,
 
         // Distance that causes achievement animation.
-        ACHIEVEMENT_DISTANCE: 100,
+        ACHIEVEMENT_DISTANCE: 1000,
 
         // Used for conversion from pixel distance to a scaled unit.
         // 像素和距离的转换比例
-        COEFFICIENT: 0.025,
+        COEFFICIENT: 0.05,
 
         // Flash duration in milliseconds.
         FLASH_DURATION: 1000 / 4,
@@ -2743,14 +2816,12 @@
         addNewObstacle: function (currentSpeed) {
             var obstacleTypeIndex = getRandomNum(0, Obstacle.types.length - 1);
             var obstacleType = Obstacle.types[obstacleTypeIndex];
-            console.log(obstacleType);
             // Check for multiples of the same type of obstacle.
             // Also check obstacle is available at current speed.
             console.log(currentSpeed, obstacleType.minSpeed);
             // console.log(this.duplicateObstacleCheck(obstacleType.type), currentSpeed < obstacleType.minSpeed);
             if (this.duplicateObstacleCheck(obstacleType.type) ||
                 currentSpeed < obstacleType.minSpeed) {
-                    console.log("object");
                 this.addNewObstacle(currentSpeed);
             } else {
                 var obstacleSpritePos = this.spritePos[obstacleType.type];

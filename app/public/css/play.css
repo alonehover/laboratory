@@ -91,8 +91,9 @@
   }
 
   .ctrl-jump {
-    background: #e80f0f;
+    background: #c73c3c;
     color: #FFF;
+    margin-top: 50px;
   }
 
   .ctrl-jump:focus, .ctrl-jump:active {
