@@ -1,171 +1,168 @@
 /* Copyright 2013 The Chromium Authors. All rights reserved.
- * Use of this source code is governed by a BSD-style license that can be
- * found in the LICENSE file. */
+* Use of this source code is governed by a BSD-style license that can be
+* found in the LICENSE file. */
 
- html, body {
-    padding: 0;
-    margin: 0;
-    width: 100vw;
-    height: 100%;
-    margin: auto;
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100%;
+  margin: auto;
+}
+
+.icon {
+  -webkit-user-select: none;
+  user-select: none;
+  display: inline-block;
+}
+
+.icon-runner {
+  content: -webkit-image-set( url(/img/play/default_100_percent/100-error-offline.png) 1x, url(/img/play/default_200_percent/200-error-offline.png) 2x);
+  position: relative;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* Offline page */
+.tff-wrapper {
+  /* padding-top: 300px; */
+}
+
+.runner .interstitial-wrapper {
+  color: #2b2b2b;
+  font-size: 1em;
+  line-height: 1.55;
+  margin: 0 auto;
+  max-width: 600px;
+  padding-top: 100px;
+  width: 100%;
+}
+
+.runner .runner-container {
+  height: 300px;
+  max-width: 600px;
+  overflow: hidden;
+  margin: auto;
+  width: 100vw;
+}
+
+.runner .runner-canvas {
+  height: 300px;
+  max-width: 600px;
+  opacity: 1;
+  overflow: hidden;
+  z-index: 2;
+  background: #dff3ff;
+}
+
+.runner .controller {
+  background: rgba(247, 247, 247, .1);
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  z-index: 1;
+}
+
+#resources {
+  display: none;
+}
+
+.ctrl-box {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ctrl-btn {
+  height: 120px;
+  width: 120px;
+  line-height: 120px;
+  text-align: center;
+  border-radius: 60px;
+  border: none;
+  outline: none;
+}
+
+.ctrl-jump {
+  background: #c73c3c;
+  color: #FFF;
+  margin-top: 50px;
+}
+
+.ctrl-jump:focus, .ctrl-jump:active {
+  background: #ff0000;
+}
+
+.ctrl-stop {
+  background: #929292;
+  color: #FFF;
+}
+
+@media (max-width: 420px) {
+  .suggested-left > #control-buttons, .suggested-right > #control-buttons {
+    float: none;
   }
-  
-  .icon {
-    -webkit-user-select: none;
-    user-select: none;
-    display: inline-block;
-  }
-  
-  .icon-runner {
-    content: -webkit-image-set( url(/img/play/default_100_percent/100-error-offline.png) 1x, url(/img/play/default_200_percent/200-error-offline.png) 2x);
-    position: relative;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  
-  /* Offline page */
-  .tff-wrapper {
-    padding-top: 300px;
-  }
-  
-  .runner .interstitial-wrapper {
-    color: #2b2b2b;
-    font-size: 1em;
-    line-height: 1.55;
-    margin: 0 auto;
-    max-width: 750px;
-    padding-top: 100px;
-    width: 100%;
-  }
-  
-  .runner .runner-container {
-    height: 300px;
-    max-width: 750px;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    width: 100vw;
-  }
-  
-  .runner .runner-canvas {
-    height: 300px;
-    max-width: 750px;
-    opacity: 1;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    z-index: 2;
-    background: #dff3ff;
-  }
-  
-  .runner .controller {
-    background: rgba(247, 247, 247, .1);
-    height: 100vh;
+  .snackbar {
     left: 0;
-    position: absolute;
-    top: 0;
-    width: 100vw;
-    z-index: 1;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0;
   }
-  
-  #resources {
-    display: none;
-  }
+}
 
-  .ctrl-box {
-    display: flex;
-    justify-content: space-around;
+@media (max-height: 350px) {
+  h1 {
+    margin: 0 0 15px;
   }
+  .icon-offline {
+    margin: 0 0 10px;
+  }
+  .interstitial-wrapper {
+    margin-top: 5%;
+  }
+  .nav-wrapper {
+    margin-top: 30px;
+  }
+}
 
-  .ctrl-btn {
-    height: 120px;
-    width: 120px;
-    line-height: 120px;
-    text-align: center;
-    border-radius: 60px;
-    border: none;
-    outline: none;
+@media (min-width: 600px) and (max-width: 736px) and (orientation: landscape) {
+  .runner .interstitial-wrapper {
+    margin-left: 0;
+    margin-right: 0;
   }
+}
 
-  .ctrl-jump {
-    background: #c73c3c;
-    color: #FFF;
-    margin-top: 50px;
+@media (min-width: 420px) and (max-width: 736px) and (min-height: 240px) and (max-height: 420px) and (orientation:landscape) {
+  .interstitial-wrapper {
+    margin-bottom: 100px;
   }
+}
 
-  .ctrl-jump:focus, .ctrl-jump:active {
-    background: #ff0000;
+@media (min-height: 240px) and (orientation: landscape) {
+  .runner .interstitial-wrapper {
+    margin-bottom: 90px;
   }
+  .icon-runner {
+    margin-bottom: 20px;
+  }
+}
 
-  .ctrl-stop {
-    background: #929292;
-    color: #FFF;
+@media (max-height: 320px) and (orientation: landscape) {
+  .icon-runner {
+    margin-bottom: 0;
   }
-  
-  @media (max-width: 420px) {
-    .suggested-left > #control-buttons, .suggested-right > #control-buttons {
-      float: none;
-    }
-    .snackbar {
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      border-radius: 0;
-    }
+  .runner .runner-container {
+    top: 10px;
   }
-  
-  @media (max-height: 350px) {
-    h1 {
-      margin: 0 0 15px;
-    }
-    .icon-offline {
-      margin: 0 0 10px;
-    }
-    .interstitial-wrapper {
-      margin-top: 5%;
-    }
-    .nav-wrapper {
-      margin-top: 30px;
-    }
+}
+
+@media (max-width: 240px) {
+  .interstitial-wrapper {
+    overflow: inherit;
+    padding: 0 8px;
   }
-  
-  @media (min-width: 600px) and (max-width: 736px) and (orientation: landscape) {
-    .runner .interstitial-wrapper {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
-  
-  @media (min-width: 420px) and (max-width: 736px) and (min-height: 240px) and (max-height: 420px) and (orientation:landscape) {
-    .interstitial-wrapper {
-      margin-bottom: 100px;
-    }
-  }
-  
-  @media (min-height: 240px) and (orientation: landscape) {
-    .runner .interstitial-wrapper {
-      margin-bottom: 90px;
-    }
-    .icon-runner {
-      margin-bottom: 20px;
-    }
-  }
-  
-  @media (max-height: 320px) and (orientation: landscape) {
-    .icon-runner {
-      margin-bottom: 0;
-    }
-    .runner .runner-container {
-      top: 10px;
-    }
-  }
-  
-  @media (max-width: 240px) {
-    .interstitial-wrapper {
-      overflow: inherit;
-      padding: 0 8px;
-    }
-  }
+}
