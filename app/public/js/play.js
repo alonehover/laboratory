@@ -59,12 +59,6 @@
         this.images = {};
         this.imagesLoaded = 0;
 
-        // if (this.isDisabled()) {
-        //     this.setupDisabledRunner();
-        // } else {
-        //     this.loadImages();
-        // }
-
         this.loadImages();
     }
     window['Runner'] = Runner;
@@ -93,9 +87,6 @@
     /** @const */
     var IS_TOUCH_ENABLED = 'ontouchstart' in window;
 
-    // /** @const */
-    // var ARCADE_MODE_URL = 'chrome://dino/';
-
     /**
      * Default game configuration.
      * @enum {number}
@@ -110,8 +101,6 @@
         GAP_COEFFICIENT: 0.6,
         GRAVITY: 0.6,
         INITIAL_JUMP_VELOCITY: 12,
-        // INVERT_FADE_DURATION: 500,
-        // INVERT_DISTANCE: 100,   // 黑白场景转换距离
         MAX_BLINK_COUNT: 3,
         MAX_CLOUDS: 6,
         MAX_OBSTACLE_LENGTH: 3,
@@ -119,7 +108,6 @@
         MAX_SPEED: 13,
         MIN_JUMP_HEIGHT: 35,
         MOBILE_SPEED_COEFFICIENT: 1.1,
-        // RESOURCE_TEMPLATE_ID: 'audio-resources',
         SPEED: 6,
         SPEED_DROP_COEFFICIENT: 3
     };
@@ -131,7 +119,7 @@
      */
     Runner.defaultDimensions = {
         WIDTH: DEFAULT_WIDTH,
-        HEIGHT: 300
+        HEIGHT: 180
     };
 
 
@@ -140,15 +128,12 @@
      * @enum {string}
      */
     Runner.classes = {
-        // ARCADE_MODE: 'arcade-mode',
         CANVAS: 'runner-canvas',
         CONTAINER: 'runner-container',
         CRASHED: 'crashed',
-        // ICON: 'icon-offline',
         INVERTED: 'inverted',
         SNACKBAR: 'snackbar',
-        SNACKBAR_SHOW: 'snackbar-show',
-        // TOUCH_CONTROLLER: 'controller'
+        SNACKBAR_SHOW: 'snackbar-show'
     };
 
 
@@ -168,7 +153,6 @@
             MARK_S_PAVILION: { x: 185, y: 5 }, // 小障碍物
             CLOUD: { x: 4, y: 5 },    // 云
             HORIZON: { x: 0, y: 69 },  // 地面
-            // MOON: { x: 954, y: 10 },     
             AIRPLANE: { x: 59, y: 5 },  // 飞机
             // RESTART: { x: 2, y: 2 },
             TEXT_SPRITE: { x: 431, y: 5 },
@@ -185,7 +169,6 @@
             MARK_S_PAVILION: { x: 370, y: 10 }, // 小障碍物
             CLOUD: { x: 8, y: 10 },    // 云
             HORIZON: { x: 0, y: 138 },  // 地面
-            // MOON: { x: 954, y: 10 },     
             AIRPLANE: { x: 118, y: 10 },  // 飞机
             // RESTART: { x: 2, y: 2 },
             TEXT_SPRITE: { x: 862, y: 10 },
@@ -193,29 +176,6 @@
             STAR: { x: 1276, y: 10 }
         }
     };
-
-
-    /**
-     * Sound FX. Reference to the ID of the audio tag on interstitial page.
-     * @enum {string}
-     */
-    Runner.sounds = {
-        BUTTON_PRESS: 'offline-sound-press',
-        HIT: 'offline-sound-hit',
-        SCORE: 'offline-sound-reached'
-    };
-
-
-    /**
-     * Key code mapping.
-     * @enum {Object}
-     */
-    // Runner.keycodes = {
-    //     JUMP: { '38': 1, '32': 1 },  // Up, spacebar
-    //     DUCK: { '40': 1 },  // Down
-    //     RESTART: { '13': 1 }  // Enter
-    // };
-
 
     /**
      * Runner event names.
@@ -238,33 +198,6 @@
     };
 
     Runner.prototype = {
-        /**
-         * Whether the easter egg has been disabled. CrOS enterprise enrolled devices.
-         * @return {boolean}
-         */
-        // isDisabled: function () {
-        //     // return loadTimeData && loadTimeData.valueExists('disabledEasterEgg');
-        //     return false
-        // },
-
-        /**
-         * For disabled instances, set up a snackbar with the disabled message.
-         */
-        // setupDisabledRunner: function () {
-        //     this.containerEl = document.createElement('div');
-        //     this.containerEl.className = Runner.classes.SNACKBAR;
-        //     // this.containerEl.textContent = loadTimeData.getValue('disabledEasterEgg');
-        //     this.outerContainerEl.appendChild(this.containerEl);
-
-        //     // Show notification when the activation key is pressed.
-        //     document.addEventListener(Runner.events.KEYDOWN, function (e) {
-        //         if (Runner.keycodes.JUMP[e.keyCode]) {
-        //             this.containerEl.classList.add(Runner.classes.SNACKBAR_SHOW);
-        //             document.querySelector('.icon').classList.add('icon-disabled');
-        //         }
-        //     }.bind(this));
-        // },
-
         isMobile: function() {
             return IS_MOBILE;
         },
@@ -316,30 +249,6 @@
         },
 
         /**
-         * Load and decode base 64 encoded sounds.
-         */
-        // loadSounds: function () {
-        //     if (!IS_IOS) {
-        //         this.audioContext = new AudioContext();
-
-        //         var resourceTemplate =
-        //             document.getElementById(this.config.RESOURCE_TEMPLATE_ID).content;
-
-        //         for (var sound in Runner.sounds) {
-        //             var soundSrc =
-        //                 resourceTemplate.getElementById(Runner.sounds[sound]).src;
-        //             soundSrc = soundSrc.substr(soundSrc.indexOf(',') + 1);
-        //             var buffer = decodeBase64ToArrayBuffer(soundSrc);
-
-        //             // Async, so no guarantee of order in array.
-        //             this.audioContext.decodeAudioData(buffer, function (index, audioData) {
-        //                 this.soundFx[index] = audioData;
-        //             }.bind(this, sound));
-        //         }
-        //     }
-        // },
-
-        /**
          * Sets the game speed. Adjust the speed accordingly if on a smaller screen.
          * @param {number} opt_speed
          */
@@ -361,10 +270,6 @@
          * Game initialiser.
          */
         init: function () {
-            // Hide the static icon.
-            // document.querySelector('.' + Runner.classes.ICON).style.visibility =
-            //     'hidden';
-
             this.adjustDimensions();    // 重置时间
             this.setSpeed();    // 设置速度
 
@@ -399,9 +304,6 @@
                 this.outerContainerEl.appendChild(this.containerEl);
             }
 
-            // if (IS_MOBILE) {
-            //     this.createTouchController();
-            // }
             // 创建一个触屏监听区域
             this.createTouchController();
 
@@ -445,12 +347,7 @@
                 boxStyles.paddingLeft.length - 2));
 
             var clientWIDTH = this.outerContainerEl.offsetWidth - padding * 2;
-            // if (this.isArcadeMode()) {
-            //     this.dimensions.WIDTH = Math.min(DEFAULT_WIDTH, this.dimensions.WIDTH);
-            //     if (this.activated) {
-            //         this.setArcadeModeContainerScale();
-            //     }
-            // }
+
             this.dimensions.WIDTH = Math.min(DEFAULT_WIDTH, clientWIDTH);
 
             // Redraw the elements back onto the canvas.
@@ -492,23 +389,8 @@
                 this.playingIntro = true;
                 this.tRex.playingIntro = true;
 
-                // CSS animation definition.
-                // var keyframes = '@-webkit-keyframes intro { ' +
-                //     'from { width:' + Trex.config.WIDTH + 'px }' +
-                //     'to { width: ' + this.dimensions.WIDTH + 'px }' +
-                //     '}';
-                // document.styleSheets[0].insertRule(keyframes, 0);
-
-                // this.containerEl.addEventListener(Runner.events.ANIM_END,
-                //     this.startGame.bind(this));
                 this.startGame();
 
-                this.containerEl.style.webkitAnimation = 'intro .4s ease-out 1 both';
-                this.containerEl.style.width = this.dimensions.WIDTH + 'px';
-
-                // if (this.touchController) {
-                //     this.outerContainerEl.appendChild(this.touchController);
-                // }
                 this.playing = true;
                 this.activated = true;
             } else if (this.crashed) {
@@ -521,9 +403,6 @@
          * Update the game status to started.
          */
         startGame: function () {
-            // if (this.isArcadeMode()) {
-            //     this.setArcadeMode();
-            // }
             this.runningTime = 0;
             this.playingIntro = false;
             this.tRex.playingIntro = false;
@@ -607,29 +486,6 @@
                 //     // this.playSound(this.soundFx.SCORE);
                 //     console.log("+100");
                 // }
-                
-                // Night mode.
-                // if (this.invertTimer > this.config.INVERT_FADE_DURATION) {
-                //     this.invertTimer = 0;
-                //     this.invertTrigger = false;
-                //     this.invert();
-                // } else if (this.invertTimer) {
-                //     this.invertTimer += deltaTime;
-                // } else {
-                //     var actualDistance =
-                //         this.distanceMeter.getActualDistance(Math.ceil(this.distanceRan));
-
-                //     if (actualDistance > 0) {
-                //         this.invertTrigger = !(actualDistance %
-                //             this.config.INVERT_DISTANCE);
-                //         if (this.invertTrigger && this.invertTimer === 0) {
-                //             this.invertTimer += deltaTime;
-                //             console.log(this.invertTimer);
-                            
-                //             this.invert();
-                //         }
-                //     }
-                // }
             }
 
             if (this.playing || (!this.activated &&
@@ -671,50 +527,12 @@
             this.touchController.addEventListener(Runner.events.TOUCHSTART, this);
             this.touchController.addEventListener(Runner.events.TOUCHEND, this);
             // this.containerEl.addEventListener(Runner.events.TOUCHSTART, this);
-
-            // this.stopController.addEventListener(Runner.events.MOUSEUP, function() {
-               
-            //     if(this.playing) {
-            //         this.stop();
-            //     }else {
-            //         this.play();
-            //     }
-            //     // this.restart();
-            // }.bind(this))   
-
-            // if (IS_MOBILE) {
-            //     // Mobile only touch devices.
-            //     this.touchController.addEventListener(Runner.events.TOUCHSTART, this);
-            //     this.touchController.addEventListener(Runner.events.TOUCHEND, this);
-            //     this.containerEl.addEventListener(Runner.events.TOUCHSTART, this);
-            // } else {
-            //     // Mouse.
-            //     this.touchController.addEventListener(Runner.events.MOUSEDOWN, this);
-            //     this.touchController.addEventListener(Runner.events.MOUSEUP, this);
-                // this.stopController.addEventListener(Runner.events.MOUSEDOWN, function() {
-                //     this.crashed = true;
-                //     this.gameOver();
-                //     this.stop();
-                // }.bind(this))                
-            // }
         },
 
         /**
          * Remove all listeners.
          */
         stopListening: function () {
-            // document.removeEventListener(Runner.events.KEYDOWN, this);
-            // document.removeEventListener(Runner.events.KEYUP, this);
-
-            // if (IS_MOBILE) {
-            //     this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
-            //     this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
-            //     this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
-            // } else {
-            //     document.removeEventListener(Runner.events.MOUSEDOWN, this);
-            //     document.removeEventListener(Runner.events.MOUSEUP, this);
-            // }
-
             this.touchController.removeEventListener(Runner.events.TOUCHSTART, this);
             this.touchController.removeEventListener(Runner.events.TOUCHEND, this);
             // this.containerEl.removeEventListener(Runner.events.TOUCHSTART, this);
@@ -754,16 +572,6 @@
                         this.tRex.startJump(this.currentSpeed);
                     }
                 } 
-                // else if (this.playing && Runner.keycodes.DUCK[e.keyCode]) {
-                //     e.preventDefault();
-                //     if (this.tRex.jumping) {
-                //         // Speed drop, activated only when jump key is not pressed.
-                //         this.tRex.setSpeedDrop();
-                //     } else if (!this.tRex.jumping && !this.tRex.ducking) {
-                //         // Duck.
-                //         this.tRex.setDuck(true);
-                //     }
-                // }
             }
             else if (this.crashed && e.type == Runner.events.TOUCHSTART &&
                 e.currentTarget == this.touchController) {
@@ -951,19 +759,6 @@
         },
 
         /**
-         * Play a sound.
-         * @param {SoundBuffer} soundBuffer
-         */
-        // playSound: function (soundBuffer) {
-        //     if (soundBuffer) {
-        //         var sourceNode = this.audioContext.createBufferSource();
-        //         sourceNode.buffer = soundBuffer;
-        //         sourceNode.connect(this.audioContext.destination);
-        //         sourceNode.start(0);
-        //     }
-        // },
-
-        /**
          * Inverts the current page / canvas colors.
          * @param {boolean} Whether to reset colors.
          */
@@ -1056,24 +851,6 @@
 
         return canvas;
     }
-
-
-    /**
-     * Decodes the base 64 audio to ArrayBuffer used by Web Audio.
-     * @param {string} base64String
-     */
-    // function decodeBase64ToArrayBuffer(base64String) {
-    //     var len = (base64String.length / 4) * 3;
-    //     var str = atob(base64String);
-    //     var arrayBuffer = new ArrayBuffer(len);
-    //     var bytes = new Uint8Array(arrayBuffer);
-
-    //     for (var i = 0; i < len; i++) {
-    //         bytes[i] = str.charCodeAt(i);
-    //     }
-    //     return bytes.buffer;
-    // }
-
 
     /**
      * Return the current timestamp.
@@ -1532,7 +1309,7 @@
             type: 'MARK_S_TREE',
             width: 21,
             height: 34,
-            yPos: 242,
+            yPos: 122,
             multipleSpeed: 4,
             minGap: 120,  // 最小间距
             minSpeed: 0,
@@ -1545,7 +1322,7 @@
             type: 'MARK_S_TREE2',
             width: 42,
             height: 34,
-            yPos: 242,
+            yPos: 122,
             multipleSpeed: 4,
             minGap: 120,  // 最小间距
             minSpeed: 0,
@@ -1559,10 +1336,10 @@
             type: 'MARK_S_BRIDGE',
             width: 68,
             height: 34,
-            yPos: 242,
+            yPos: 122,
             multipleSpeed: 4,
             minGap: 130,  // 最小间距
-            minSpeed: 0,
+            minSpeed: 6,
             collisionBoxes: [
                 new CollisionBox(2, 22, 62, 4),
                 new CollisionBox(15, 2, 4, 6),
@@ -1573,7 +1350,7 @@
             type: 'MARK_S_PAVILION',
             width: 36,
             height: 34,
-            yPos: 242,
+            yPos: 122,
             multipleSpeed: 4,
             minGap: 160,  // 最小间距
             minSpeed: 6,
@@ -1587,7 +1364,7 @@
             type: 'MARK_LARGE_STONE',
             width: 18,
             height: 46,
-            yPos: 228,
+            yPos: 108,
             multipleSpeed: 7,
             minGap: 140,
             minSpeed: 3,
@@ -1600,7 +1377,7 @@
             type: 'MARK_LARGE_BUILDING',
             width: 75,
             height: 46,
-            yPos: 228,
+            yPos: 108,
             multipleSpeed: 7,
             minGap: 180,
             minSpeed: 7,
@@ -1615,10 +1392,10 @@
             type: 'MARK_LARGE_M',
             width: 60,
             height: 46,
-            yPos: 228,
+            yPos: 108,
             multipleSpeed: 7,
             minGap: 140,
-            minSpeed: 3,
+            minSpeed: 6,
             collisionBoxes: [
                 new CollisionBox(10, 9, 42, 6),
                 new CollisionBox(28, 0, 6, 8)
@@ -1628,7 +1405,7 @@
             type: 'AIRPLANE',
             width: 50,
             height: 30,
-            yPos: [220, 200, 190], // Variable height.
+            yPos: [120, 100, 90], // Variable height.
             yPosMobile: [80, 50], // Variable height mobile.
             multipleSpeed: 999,
             minSpeed: 8,
@@ -1640,8 +1417,6 @@
                 new CollisionBox(4, 12, 4, 3),                
                 new CollisionBox(42, 15, 6, 2)
             ],
-            // numFrames: 2,
-            // frameRate: 1000 / 6,
             speedOffset: .8
         }
     ];
@@ -2374,166 +2149,6 @@
         }
     };
 
-
-    //******************************************************************************
-
-    /**
-     * Nightmode shows a moon and stars on the horizon.
-     * 夜晚
-     */
-    // function NightMode(canvas, spritePos, containerWidth) {
-    //     this.spritePos = spritePos;
-    //     this.canvas = canvas;
-    //     this.canvasCtx = canvas.getContext('2d');
-    //     this.xPos = containerWidth - 50;
-    //     this.yPos = 30;
-    //     this.currentPhase = 0;
-    //     this.opacity = 0;
-    //     this.containerWidth = containerWidth;
-    //     this.stars = [];
-    //     this.drawStars = false;
-    //     this.placeStars();
-    // };
-
-    // /**
-    //  * @enum {number}
-    //  */
-    // NightMode.config = {
-    //     FADE_SPEED: 0.035,
-    //     HEIGHT: 40,
-    //     MOON_SPEED: 0.25,
-    //     NUM_STARS: 2,
-    //     STAR_SIZE: 9,
-    //     STAR_SPEED: 0.3,
-    //     STAR_MAX_Y: 70,
-    //     WIDTH: 20
-    // };
-
-    // NightMode.phases = [140, 120, 100, 60, 40, 20, 0];
-
-    // NightMode.prototype = {
-    //     /**
-    //      * Update moving moon, changing phases.
-    //      * @param {boolean} activated Whether night mode is activated.
-    //      * @param {number} delta
-    //      */
-    //     update: function (activated, delta) {
-    //         // Moon phase.
-    //         if (activated && this.opacity == 0) {
-    //             this.currentPhase++;
-
-    //             if (this.currentPhase >= NightMode.phases.length) {
-    //                 this.currentPhase = 0;
-    //             }
-    //         }
-
-    //         // Fade in / out.
-    //         if (activated && (this.opacity < 1 || this.opacity == 0)) {
-    //             this.opacity += NightMode.config.FADE_SPEED;
-    //         } else if (this.opacity > 0) {
-    //             this.opacity -= NightMode.config.FADE_SPEED;
-    //         }
-
-    //         // Set moon positioning.
-    //         if (this.opacity > 0) {
-    //             this.xPos = this.updateXPos(this.xPos, NightMode.config.MOON_SPEED);
-
-    //             // Update stars.
-    //             if (this.drawStars) {
-    //                 for (var i = 0; i < NightMode.config.NUM_STARS; i++) {
-    //                     this.stars[i].x = this.updateXPos(this.stars[i].x,
-    //                         NightMode.config.STAR_SPEED);
-    //                 }
-    //             }
-    //             this.draw();
-    //         } else {
-    //             this.opacity = 0;
-    //             this.placeStars();
-    //         }
-    //         this.drawStars = true;
-    //     },
-
-    //     updateXPos: function (currentPos, speed) {
-    //         if (currentPos < -NightMode.config.WIDTH) {
-    //             currentPos = this.containerWidth;
-    //         } else {
-    //             currentPos -= speed;
-    //         }
-    //         return currentPos;
-    //     },
-
-    //     draw: function () {
-    //         var moonSourceWidth = this.currentPhase == 3 ? NightMode.config.WIDTH * 2 :
-    //             NightMode.config.WIDTH;
-    //         var moonSourceHeight = NightMode.config.HEIGHT;
-    //         var moonSourceX = this.spritePos.x + NightMode.phases[this.currentPhase];
-    //         var moonOutputWidth = moonSourceWidth;
-    //         var starSize = NightMode.config.STAR_SIZE;
-    //         var starSourceX = Runner.spriteDefinition.LDPI.STAR.x;
-
-    //         if (IS_HIDPI) {
-    //             moonSourceWidth *= 2;
-    //             moonSourceHeight *= 2;
-    //             moonSourceX = this.spritePos.x +
-    //                 (NightMode.phases[this.currentPhase] * 2);
-    //             starSize *= 2;
-    //             starSourceX = Runner.spriteDefinition.HDPI.STAR.x;
-    //         }
-
-    //         this.canvasCtx.save();
-    //         this.canvasCtx.globalAlpha = this.opacity;
-
-    //         // Stars.
-    //         if (this.drawStars) {
-    //             for (var i = 0; i < NightMode.config.NUM_STARS; i++) {
-    //                 this.canvasCtx.drawImage(Runner.imageSprite,
-    //                     starSourceX, this.stars[i].sourceY, starSize, starSize,
-    //                     Math.round(this.stars[i].x), this.stars[i].y,
-    //                     NightMode.config.STAR_SIZE, NightMode.config.STAR_SIZE);
-    //             }
-    //         }
-
-    //         // Moon.
-    //         this.canvasCtx.drawImage(Runner.imageSprite, moonSourceX,
-    //             this.spritePos.y, moonSourceWidth, moonSourceHeight,
-    //             Math.round(this.xPos), this.yPos,
-    //             moonOutputWidth, NightMode.config.HEIGHT);
-
-    //         this.canvasCtx.globalAlpha = 1;
-    //         this.canvasCtx.restore();
-    //     },
-
-    //     // Do star placement.
-    //     placeStars: function () {
-    //         var segmentSize = Math.round(this.containerWidth /
-    //             NightMode.config.NUM_STARS);
-
-    //         for (var i = 0; i < NightMode.config.NUM_STARS; i++) {
-    //             this.stars[i] = {};
-    //             this.stars[i].x = getRandomNum(segmentSize * i, segmentSize * (i + 1));
-    //             this.stars[i].y = getRandomNum(0, NightMode.config.STAR_MAX_Y);
-
-    //             if (IS_HIDPI) {
-    //                 this.stars[i].sourceY = Runner.spriteDefinition.HDPI.STAR.y +
-    //                     NightMode.config.STAR_SIZE * 2 * i;
-    //             } else {
-    //                 this.stars[i].sourceY = Runner.spriteDefinition.LDPI.STAR.y +
-    //                     NightMode.config.STAR_SIZE * i;
-    //             }
-    //         }
-    //     },
-
-    //     reset: function () {
-    //         this.currentPhase = 0;
-    //         this.opacity = 0;
-    //         this.update(false);
-    //     }
-
-    // };
-
-
-    //******************************************************************************
-
     /**
      * Horizon Line.
      * 地面的线绘制
@@ -2568,7 +2183,7 @@
     HorizonLine.dimensions = {
         WIDTH: 600,
         HEIGHT: 100,
-        YPOS: 268
+        YPOS: 148
     };
 
 
