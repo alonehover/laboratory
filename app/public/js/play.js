@@ -558,6 +558,9 @@
                     // Starting the game for the first time.
                     if (!this.playing) {
                         // this.loadSounds();
+                        var btnTips = document.getElementById("btnTips");
+                        btnTips.parentNode.removeChild(btnTips);
+                        
                         this.playing = true;
                         this.update();
 
