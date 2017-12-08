@@ -171,7 +171,7 @@
             HORIZON: { x: 0, y: 138 },  // 地面
             AIRPLANE: { x: 118, y: 10 },  // 飞机
             // RESTART: { x: 2, y: 2 },
-            TEXT_SPRITE: { x: 862, y: 10 },
+            TEXT_SPRITE: { x: 862, y: 12 },
             TREX: { x: 1362, y: 10 }, // 人物的开始坐标
             STAR: { x: 1276, y: 10 }
         }
