@@ -25,20 +25,10 @@ h1,h2,h3,h4,h5 {
 
 .group-item {
     line-height: 32px;
-    margin-left: 12px;
-    padding-left: 8px;
+    /* margin-left: 12px; */
     float: left;
     width: 120px;
-    transition: background 600ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-.group-item:hover {
-    background: #000;
-    border-radius: 2px;
-}
-
-.group-item:hover > a {
-    color: #efefef;
+    /* transition: background 600ms cubic-bezier(0.18, 0.89, 0.32, 1.28); */
 }
 
 .group-item > a {
@@ -50,6 +40,12 @@ h1,h2,h3,h4,h5 {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.group-item > a:hover {
+    border: 1px solid #000;
 }
 
 .group-title {
