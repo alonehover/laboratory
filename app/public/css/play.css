@@ -40,12 +40,17 @@ img {
   width: 100%;
 }
 
+.title-box {
+  background: #dff3ff;
+  text-align: center;
+  padding-top: 10px;
+}
 .biaoti {
   width: 120px;
-  position: absolute;
+  /* position: absolute;
   top: -24px;
   left: 0;
-  transform: rotate(-8deg);
+  transform: rotate(-8deg); */
 }
 
 .tff-wrapper {
