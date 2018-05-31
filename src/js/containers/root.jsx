@@ -20,7 +20,12 @@ export default class Root extends Component {
                     defaultOpenKeys={['sub1']}
                     mode="inline"
                 >
-                    <Menu.Item key="1"><Icon type="link" />链接管理</Menu.Item>
+                    <Menu.Item key="0">
+                        <a href="/" target="_blank"><Icon type="home" />首页</a>
+                    </Menu.Item>
+                    <Menu.Item key="1">
+                        <Icon type="link" />链接管理
+                    </Menu.Item>
                 </Menu>
                 <section className="main">
                     {this.props.children}
