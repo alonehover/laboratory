@@ -1,64 +1,46 @@
 {
-  "name": "laboratory",
+  "name": "link",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "link",
+  "private": true,
+  "dependencies": {
+    "egg": "^2.2.1",
+    "egg-mysql": "^3.0.0",
+    "egg-scripts": "^2.5.0",
+    "egg-view-nunjucks": "^2.2.0"
+  },
+  "devDependencies": {
+    "autod": "^3.0.1",
+    "autod-egg": "^1.0.0",
+    "egg-bin": "^4.3.5",
+    "egg-ci": "^1.8.0",
+    "egg-mock": "^3.14.0",
+    "eslint": "^4.11.0",
+    "eslint-config-egg": "^6.0.0",
+    "webstorm-disable-index": "^1.2.0"
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development nodemon server",
-    "build": "cross-env Node_ENV=production webpack --config ./webpack/webpack.prod.config.js --progress",
-    "start": "cross-env Node_ENV=production node server",
-    "stats": "cross-env Node_ENV=production webpack --config ./webpack/webpack.prod.config.js --profile --json > stats.json"
+    "start": "egg-scripts start --daemon --title=egg-server-link",
+    "stop": "egg-scripts stop --title=egg-server-link",
+    "dev": "EGG_SERVER_ENV=local egg-bin dev",
+    "debug": "egg-bin debug",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "ci": {
+    "version": "8"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alonehover/laboratory.git"
+    "url": ""
   },
-  "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/alonehover/laboratory/issues"
-  },
-  "homepage": "https://github.com/alonehover/laboratory#readme",
-  "dependencies": {
-    "antd": "^2.13.10",
-    "axios": "^0.16.2",
-    "babel-runtime": "^6.23.0",
-    "body-parser": "^1.18.2",
-    "ejs": "^2.5.6",
-    "express": "^4.15.4",
-    "less-loader": "^4.0.5",
-    "mysql": "^2.14.1"
-  },
-  "devDependencies": {
-    "autoprefixer": "^7.1.2",
-    "babel-cli": "^6.24.1",
-    "babel-loader": "^7.1.1",
-    "babel-plugin-import": "^1.6.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.5.2",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1",
-    "copy-webpack-plugin": "^4.0.1",
-    "cross-env": "^5.0.1",
-    "css-loader": "^0.28.0",
-    "extract-text-webpack-plugin": "^3.0.0",
-    "html-loader": "^0.4.5",
-    "html-webpack-plugin": "^2.29.0",
-    "less": "^2.7.2",
-    "open-browser-webpack-plugin": "0.0.5",
-    "postcss-loader": "^2.0.6",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-router": "^4.1.1",
-    "react-router-dom": "^4.1.1",
-    "style-loader": "^0.18.2",
-    "webpack": "^3.4.1",
-    "webpack-dev-middleware": "^1.12.0",
-    "webpack-dev-server": "^2.5.0",
-    "webpack-hot-middleware": "^2.19.1"
-  }
+  "license": "MIT"
 }
