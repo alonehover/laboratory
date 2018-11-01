@@ -20,13 +20,13 @@ module.exports = app => {
 
   // 获取全部分类
   router.get('/api/link/type', controller.link.type.index);
-  // 获取单条链接
+  // 获取单条分类
   router.get('/api/link/type/:id', controller.link.type.show);
-  // 添加链接
+  // 添加分类
   router.post('/api/link/type', controller.link.type.add);
-  // 修改链接
+  // 修改分类
   router.post('/api/link/type/:id/edit', controller.link.type.update);
-  // 删除链接
+  // 删除分类
   router.post('/api/link/type/:id', controller.link.type.delete);
 
   // 获取全部用户
