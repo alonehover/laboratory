@@ -31,26 +31,33 @@ h1,h2,h3,h4,h5 {
 
 .page-title {
     color: #6cb5dc;
+    margin: 24px 0 36px;
 }
 
 .group {
+    display: flex;
+    margin-bottom: 48px;
+}
 
+.group-list {
+    margin-bottom: -24px;
 }
 
 .group-title {
-    margin-bottom: 16px;
-    line-height: 34px;
+    margin-right: 24px;
     white-space: nowrap;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: normal;
-    color: #999;
+    color: #b1b1b1;
+    padding-right: 24px;
+    border-right: 1px dashed #eaeaea;
 }
 
 .group-item {
     float: left;
     background: #FFF;
     border-radius: 2px;
-    margin: 0 24px 16px 0;
+    margin: 0 24px 24px 0;
     transition: all .2s ease-out;
 }
 
@@ -63,6 +70,7 @@ h1,h2,h3,h4,h5 {
     color: #000;
     font-size: 14px;
     font-weight: 500;
+    text-align: center;
     text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
