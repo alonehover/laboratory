@@ -36,7 +36,7 @@ const Home = {
         var list = await Link.getAll()
         var group = groupBy(list)
         res.render('link', {
-            title: "Link",
+            title: "Links ヽ( ^∀^)ﾉ",
             links: group
         })
     }
