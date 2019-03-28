@@ -4,6 +4,12 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser');
 
+const webpack = require('webpack')
+const webpackDevMiddleware = require("webpack-dev-middleware")
+const webpackHotMiddleware = require("webpack-hot-middleware")
+const webpackConfig = require("../webpack/webpack.dev.config")
+const compiler = webpack(webpackConfig)
+
 const config = require('./config')
 
 const app = express()
@@ -21,6 +27,12 @@ app.all('*', function (req, res, next) {
 });
 
 require('./router')(app)
+
+app.use(webpackDevMiddleware(compiler, {
+    publicPath: "/js/"
+}))
+
+app.use(webpackHotMiddleware(compiler));
 
 app.listen(config.port, function () {
     console.log('Example app listening on port ' + config.port + '!')
