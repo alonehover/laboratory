@@ -88,10 +88,3 @@ h1,h2,h3,h4,h5 {
 .group-item > a:hover {
     color: #00a4ec;
 }
-
-@media screen and (min-width: 769px){
-    body {
-        width: 60vw;
-        margin: auto;
-    }
-}
