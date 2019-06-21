@@ -23,7 +23,7 @@
   "homepage": "https://github.com/alonehover/laboratory#readme",
   "dependencies": {
     "antd": "^2.13.10",
-    "axios": "^0.16.2",
+    "axios": "^0.19.0",
     "babel-runtime": "^6.23.0",
     "body-parser": "^1.18.2",
     "ejs": "^2.5.6",
