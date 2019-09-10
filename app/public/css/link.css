@@ -1,7 +1,7 @@
 body, html {
-    color: #000;
+    color: #333;
     margin: auto;
-    background: #f1f5f8;
+    background: #FFF;
     font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
 }
 
@@ -72,7 +72,7 @@ h1,h2,h3,h4,h5 {
     height: 60px;
     line-height: 24px;
     display: block;
-    color: #000;
+    color: #333;
     font-size: 14px;
     text-align: center;
     text-decoration: none;
@@ -83,6 +83,7 @@ h1,h2,h3,h4,h5 {
     border: 1px dashed #eaeaea;
     transition: color .3s ease-out;
     letter-spacing: .2px;
+    box-shadow: 1px 1px 10px rgba(200, 200, 200, 0.4);
 }
 
 .group-item:hover {
