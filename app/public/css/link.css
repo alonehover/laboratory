@@ -2,7 +2,7 @@ body, html {
     color: #000;
     margin: auto;
     background: #f1f5f8;
-    font-family: Helvetica Neue,PingFang SC,Microsoft YaHei;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
 }
 
 body {
@@ -74,7 +74,6 @@ h1,h2,h3,h4,h5 {
     display: block;
     color: #000;
     font-size: 14px;
-    font-weight: 500;
     text-align: center;
     text-decoration: none;
     overflow: hidden;
