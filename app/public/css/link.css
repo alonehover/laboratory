@@ -29,6 +29,11 @@ h1,h2,h3,h4,h5 {
     margin: 12px 0;
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .page-title {
     color: #6cb5dc;
     margin: 24px 0 36px;
