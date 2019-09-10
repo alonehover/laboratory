@@ -55,14 +55,14 @@ h1,h2,h3,h4,h5 {
     font-weight: normal;
     color: #888;
     padding-right: 24px;
-    border-right: 1px dashed #eaeaea;
+    border-right: 1px dashed #e0e0e0;
 }
 
 .group-item {
     float: left;
     background: #FFF;
     border-radius: 2px;
-    margin: 0 24px 24px 0;
+    margin: 0 16px 16px 0;
     transition: all .2s ease-out;
 }
 
@@ -80,7 +80,7 @@ h1,h2,h3,h4,h5 {
     text-overflow: ellipsis;
     white-space: nowrap;
     padding: 16px;
-    border: 2px solid rgba(255, 255, 255, 0);
+    border: 1px dashed #eaeaea;
     transition: color .3s ease-out;
     letter-spacing: .2px;
 }
